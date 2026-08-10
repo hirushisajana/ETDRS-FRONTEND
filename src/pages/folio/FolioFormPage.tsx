@@ -359,7 +359,7 @@ export default function FolioFormPage() {
   }
 
   if (folioLoading) return <LoadingSpinner />;
-  if (!folio) return <div className="p-6 text-gray-500">Folio not found</div>;
+  if (!folio) return <div className="p-6 text-slate-500">Folio not found</div>;
 
   const notaryStatus = getNotaryStatus();
   const isBlocked = selectedNotary && selectedNotary.status !== 'ACTIVE';
@@ -369,9 +369,9 @@ export default function FolioFormPage() {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <div>
-          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Party Type</label>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Party Type</label>
           <select value={partyForm.partyType} onChange={(e) => setPartyForm({ ...partyForm, partyType: e.target.value })}
-            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" required>
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" required>
             <option value="">Select</option>
             <option value="INDIVIDUAL">Individual</option>
             <option value="COMPANY">Company</option>
@@ -381,14 +381,14 @@ export default function FolioFormPage() {
         {partyForm.partyType === 'INDIVIDUAL' && (
           <>
             <div className="lg:col-span-2">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Full Name</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Full Name</label>
               <input value={partyForm.fullName} onChange={(e) => setPartyForm({ ...partyForm, fullName: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">ID Type</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">ID Type</label>
               <select value={partyForm.idType} onChange={(e) => setPartyForm({ ...partyForm, idType: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none">
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none">
                 <option value="">Select</option>
                 <option value="NIC">NIC</option>
                 <option value="PASSPORT">Passport</option>
@@ -396,20 +396,20 @@ export default function FolioFormPage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">ID Number</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">ID Number</label>
               <input value={partyForm.idNumber} onChange={(e) => setPartyForm({ ...partyForm, idNumber: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Address</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Address</label>
               <input value={partyForm.address} onChange={(e) => setPartyForm({ ...partyForm, address: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             {partyForm.idType === 'PASSPORT' && (
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Foreign Address</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Foreign Address</label>
                 <input value={partyForm.foreignAddress} onChange={(e) => setPartyForm({ ...partyForm, foreignAddress: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
               </div>
             )}
           </>
@@ -417,27 +417,27 @@ export default function FolioFormPage() {
         {partyForm.partyType === 'COMPANY' && (
           <>
             <div className="lg:col-span-2">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Company Name</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Company Name</label>
               <input value={partyForm.fullName} onChange={(e) => setPartyForm({ ...partyForm, fullName: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Company Reg. Number</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Company Reg. Number</label>
               <input value={partyForm.companyRegNumber} onChange={(e) => setPartyForm({ ...partyForm, companyRegNumber: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Address</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Address</label>
               <input value={partyForm.address} onChange={(e) => setPartyForm({ ...partyForm, address: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
           </>
         )}
         {partyForm.partyType === 'GROUP' && (
           <div className="lg:col-span-3">
-            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Group Description</label>
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Group Description</label>
             <textarea value={partyForm.groupDescription} onChange={(e) => setPartyForm({ ...partyForm, groupDescription: e.target.value })}
-              rows={3} className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-none" />
+              rows={3} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-none" />
           </div>
         )}
       </div>
@@ -463,9 +463,9 @@ export default function FolioFormPage() {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <div>
-          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Property Type</label>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Property Type</label>
           <select value={propForm.propertyType} onChange={(e) => setPropForm({ ...propForm, propertyType: e.target.value })}
-            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" required>
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" required>
             <option value="">Select</option>
             <option value="MONEY">Money</option>
             <option value="LAND">Land</option>
@@ -476,71 +476,71 @@ export default function FolioFormPage() {
         {propForm.propertyType === 'MONEY' && (
           <>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Amount</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Amount</label>
               <input type="number" step="0.01" value={propForm.amount} onChange={(e) => setPropForm({ ...propForm, amount: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Currency</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Currency</label>
               <input value={propForm.currency} onChange={(e) => setPropForm({ ...propForm, currency: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" placeholder="LKR" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" placeholder="LKR" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Description</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Description</label>
               <input value={propForm.otherDescription} onChange={(e) => setPropForm({ ...propForm, otherDescription: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
           </>
         )}
         {propForm.propertyType === 'LAND' && (
           <>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Land Amount (perches)</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Land Amount (perches)</label>
               <input type="number" step="0.01" value={propForm.landAmount} onChange={(e) => setPropForm({ ...propForm, landAmount: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Registration Number</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Registration Number</label>
               <input value={propForm.landRegistrationNumber} onChange={(e) => setPropForm({ ...propForm, landRegistrationNumber: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Registration Department</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Registration Department</label>
               <input value={propForm.landRegistrationDepartment} onChange={(e) => setPropForm({ ...propForm, landRegistrationDepartment: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Property Value</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Property Value</label>
               <input type="number" step="0.01" value={propForm.propertyValue} onChange={(e) => setPropForm({ ...propForm, propertyValue: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
           </>
         )}
         {propForm.propertyType === 'VEHICLE' && (
           <>
             <div className="lg:col-span-2">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Vehicle Details</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Vehicle Details</label>
               <textarea value={propForm.vehicleDetails} onChange={(e) => setPropForm({ ...propForm, vehicleDetails: e.target.value })}
-                rows={2} className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-none" />
+                rows={2} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Property Value</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Property Value</label>
               <input type="number" step="0.01" value={propForm.propertyValue} onChange={(e) => setPropForm({ ...propForm, propertyValue: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
           </>
         )}
         {propForm.propertyType === 'OTHER' && (
           <>
             <div className="lg:col-span-2">
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Description</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Description</label>
               <textarea value={propForm.otherDescription} onChange={(e) => setPropForm({ ...propForm, otherDescription: e.target.value })}
-                rows={2} className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-none" />
+                rows={2} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-none" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Property Value</label>
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Property Value</label>
               <input type="number" step="0.01" value={propForm.propertyValue} onChange={(e) => setPropForm({ ...propForm, propertyValue: e.target.value })}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
             </div>
           </>
         )}
@@ -554,12 +554,12 @@ export default function FolioFormPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="flex items-center gap-2">
-            <button onClick={() => navigate('/folio')} className="text-gray-400 hover:text-gray-600">
+            <button onClick={() => navigate('/folio')} className="text-slate-400 hover:text-slate-600">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             </button>
-            <h1 className="text-xl font-semibold text-gray-900">Folio Entry</h1>
+            <h1 className="text-xl font-semibold text-slate-900">Folio Entry</h1>
           </div>
-          <p className="text-sm text-gray-400 mt-0.5">
+          <p className="text-sm text-slate-400 mt-0.5">
             Daybook #{folio.daybookNumber} &bull; {folio.trustType === 'EXPRESS' ? 'Express Trust' : 'Normal Trust'} &bull; {folio.trustCategory}
           </p>
         </div>
@@ -574,13 +574,13 @@ export default function FolioFormPage() {
       )}
 
       {/* Section tabs */}
-      <div className="flex gap-1 mb-6 border-b border-gray-200">
+      <div className="flex gap-1 mb-6 border-b border-slate-200">
         {(['basic', 'parties', 'beneficiaries', 'properties', 'review'] as FormSection[]).map((s) => (
           <button
             key={s}
             onClick={() => setSection(s)}
             className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-              section === s ? 'text-maroon-700 border-maroon-700' : 'text-gray-500 border-transparent hover:text-gray-700'
+              section === s ? 'text-blue-700 border-blue-700' : 'text-slate-500 border-transparent hover:text-slate-700'
             }`}
           >
             {s === 'basic' ? 'Basic Info' :
@@ -596,80 +596,80 @@ export default function FolioFormPage() {
       {section === 'basic' && (
         <div className="space-y-6">
           {/* Registry & Volume */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="px-5 py-3.5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Registry & Volume Reference</h2>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <div className="px-5 py-3.5 border-b border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900">Registry & Volume Reference</h2>
             </div>
             <div className="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Land Registry</label>
-                <p className="text-sm font-medium text-gray-900 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Land Registry</label>
+                <p className="text-sm font-medium text-slate-900 bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
                   {folio.registryName || '—'} ({folio.registryCode || '—'})
                 </p>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Trust Category</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Trust Category</label>
                 <select value={trustCategory} onChange={(e) => setTrustCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none">
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none">
                   <option value="LOCAL">Local</option>
                   <option value="FOREIGN">Foreign</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Folio Number (Auto-generated)</label>
-                <p className="text-sm font-medium text-gray-900 bg-gray-50 px-3 py-2 rounded-lg border border-gray-200">
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Folio Number (Auto-generated)</label>
+                <p className="text-sm font-medium text-slate-900 bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
                   {volumeNumber || '—'}/{folioNumber || '—'}
                 </p>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Brought Forward Volume</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Brought Forward Volume</label>
                 <input value={broughtForwardVolume} onChange={(e) => setBroughtForwardVolume(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Brought Forward Folio</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Brought Forward Folio</label>
                 <input value={broughtForwardFolio} onChange={(e) => setBroughtForwardFolio(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
               </div>
             </div>
           </div>
 
           {/* Trust Details */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="px-5 py-3.5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Trust Details</h2>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <div className="px-5 py-3.5 border-b border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900">Trust Details</h2>
             </div>
             <div className="p-5 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Trust Name</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Trust Name</label>
                   <input value={trustName} onChange={(e) => setTrustName(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Trust Address</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Trust Address</label>
                   <input value={trustAddress} onChange={(e) => setTrustAddress(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Purpose Format</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Purpose Format</label>
                 <div className="flex gap-2">
                   {(['POINTS', 'PARAGRAPH'] as const).map((f) => (
                     <button key={f} type="button" onClick={() => setPurposeFormat(f)}
                       className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                        purposeFormat === f ? 'bg-maroon-700 text-white' : 'bg-white text-gray-600 border border-gray-300'
+                        purposeFormat === f ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 border border-slate-300'
                       }`}>{f === 'POINTS' ? 'Points' : 'Paragraph'}</button>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Trust Purpose</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Trust Purpose</label>
                 <textarea value={trustPurpose} onChange={(e) => setTrustPurpose(e.target.value)}
                   rows={5}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-none font-mono"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-none font-mono"
                   placeholder={purposeFormat === 'POINTS' ? 'Enter each point on a new line...' : 'Enter purpose as a paragraph...'} />
-                <p className="text-[11px] text-gray-400 mt-1">
+                <p className="text-[11px] text-slate-400 mt-1">
                   {purposeFormat === 'POINTS' ? 'Line breaks will be preserved as points' : 'Text will be rendered as a paragraph'}
                 </p>
               </div>
@@ -677,44 +677,44 @@ export default function FolioFormPage() {
           </div>
 
           {/* Instrument & Notary */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="px-5 py-3.5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Deed & Notary Details</h2>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <div className="px-5 py-3.5 border-b border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900">Deed & Notary Details</h2>
             </div>
             <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Deed Number</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Deed Number</label>
                 <input value={instrumentNumber} disabled
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed" />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 text-slate-500 cursor-not-allowed" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Attest Date</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Attest Date</label>
                 <input type="date" value={instrumentDate} disabled
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed" />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50 text-slate-500 cursor-not-allowed" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">
                   Notary Verification <span className="text-red-500">*</span>
                 </label>
                 <div className="relative max-w-md">
                   <input value={notaryQuery} onChange={(e) => handleNotarySearch(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none"
+                    className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none"
                     placeholder="Search notary by name or NIC..." />
                   {notarySearching && (
                     <div className="absolute right-2 top-1/2 -translate-y-1/2">
-                      <svg className="animate-spin h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="none">
+                      <svg className="animate-spin h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                       </svg>
                     </div>
                   )}
                   {showNotaryDropdown && (
-                    <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    <div className="absolute z-20 mt-1 w-full bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
                       {notarySearchResults.map((n) => (
                         <button key={n.id} type="button" onClick={() => selectNotary(n)}
-                          className="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 border-b border-gray-50 last:border-0 cursor-pointer">
-                          <span className="font-medium text-gray-800">{n.fullName}</span>
-                          <span className="text-xs text-gray-400 ml-2">{n.nic} &middot; {n.district}</span>
+                          className="w-full px-3 py-2 text-sm text-left hover:bg-slate-50 border-b border-slate-50 last:border-0 cursor-pointer">
+                          <span className="font-medium text-slate-800">{n.fullName}</span>
+                          <span className="text-xs text-slate-400 ml-2">{n.nic} &middot; {n.district}</span>
                           <span className={`text-[10px] font-medium ml-1 px-1.5 py-0.5 rounded ${
                             n.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                           }`}>{n.status}</span>
@@ -734,27 +734,27 @@ export default function FolioFormPage() {
                   </div>
                 )}
                 {selectedNotary && selectedNotary.status === 'ACTIVE' && (
-                  <p className="mt-1 text-xs text-gray-400">Reg: {selectedNotary.notaryRegistrationNumber} &middot; {selectedNotary.district}</p>
+                  <p className="mt-1 text-xs text-slate-400">Reg: {selectedNotary.notaryRegistrationNumber} &middot; {selectedNotary.district}</p>
                 )}
               </div>
             </div>
           </div>
 
           {/* Registrar General & Remarks */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="px-5 py-3.5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Registrar General & Remarks</h2>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <div className="px-5 py-3.5 border-b border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900">Registrar General & Remarks</h2>
             </div>
             <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Registrar General's Signature Date</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Registrar General's Signature Date</label>
                 <input type="date" value={registrarGenDate} onChange={(e) => setRegistrarGenDate(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Other Remarks</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Other Remarks</label>
                 <input value={remarks} onChange={(e) => setRemarks(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" placeholder="Any additional remarks..." />
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" placeholder="Any additional remarks..." />
               </div>
             </div>
           </div>
@@ -767,31 +767,31 @@ export default function FolioFormPage() {
           {['AUTHOR_SETTLOR', 'TRUSTEE', 'CO_TRUSTEE', 'BENEFICIAL_OWNER'].map((role) => {
             const roleParties = parties.filter((p) => p.partyRole === role);
             return (
-              <div key={role} className="bg-white rounded-xl border border-gray-200 shadow-sm">
-                <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-                  <h2 className="text-sm font-semibold text-gray-900">{roleLabels[role] || role}</h2>
+              <div key={role} className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+                <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100">
+                  <h2 className="text-sm font-semibold text-slate-900">{roleLabels[role] || role}</h2>
                   <button type="button" onClick={() => { setPartyForm({ ...initialPartyForm, partyRole: role }); setEditingPartyId(null); setPartyFormOpen(true); }}
-                    className="text-xs font-medium text-maroon-700 hover:text-maroon-800 underline cursor-pointer">+ Add</button>
+                    className="text-xs font-medium text-blue-700 hover:text-blue-800 underline cursor-pointer">+ Add</button>
                 </div>
                 <div className="p-5">
                   {roleParties.length === 0 ? (
-                    <p className="text-sm text-gray-400">No {roleLabels[role]?.toLowerCase() || role.toLowerCase()} added</p>
+                    <p className="text-sm text-slate-400">No {roleLabels[role]?.toLowerCase() || role.toLowerCase()} added</p>
                   ) : (
                     <div className="space-y-2">
                       {roleParties.map((p) => (
-                        <div key={p.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div key={p.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                           <div>
-                            <span className="text-sm font-medium text-gray-800">
+                            <span className="text-sm font-medium text-slate-800">
                               {p.partyType === 'INDIVIDUAL' ? p.fullName :
                                p.partyType === 'COMPANY' ? p.fullName :
                                p.groupDescription || 'Group'}
                             </span>
-                            <span className="text-xs text-gray-400 ml-2">({p.partyType}{p.idNumber ? ` • ${p.idNumber}` : ''})</span>
+                            <span className="text-xs text-slate-400 ml-2">({p.partyType}{p.idNumber ? ` • ${p.idNumber}` : ''})</span>
                             <StatusBadge status={p.verificationStatus} />
                           </div>
                           <div className="flex items-center gap-2">
                             <button type="button" onClick={() => editParty(p)}
-                              className="text-xs text-gray-500 hover:text-gray-700 underline cursor-pointer">Edit</button>
+                              className="text-xs text-slate-500 hover:text-slate-700 underline cursor-pointer">Edit</button>
                             <button type="button" onClick={() => handleRemoveParty(p.id)}
                               className="text-xs text-red-500 hover:text-red-700 underline cursor-pointer">Remove</button>
                           </div>
@@ -809,31 +809,31 @@ export default function FolioFormPage() {
       {/* Section: Beneficiaries */}
       {section === 'beneficiaries' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Beneficiaries</h2>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900">Beneficiaries</h2>
               <button type="button" onClick={() => { setPartyForm({ ...initialPartyForm, partyRole: 'BENEFICIARY' }); setEditingPartyId(null); setPartyFormOpen(true); }}
-                className="text-xs font-medium text-maroon-700 hover:text-maroon-800 underline cursor-pointer">+ Add</button>
+                className="text-xs font-medium text-blue-700 hover:text-blue-800 underline cursor-pointer">+ Add</button>
             </div>
             <div className="p-5">
               {parties.filter(p => p.partyRole === 'BENEFICIARY').length === 0 ? (
-                <p className="text-sm text-gray-400">No beneficiaries added</p>
+                <p className="text-sm text-slate-400">No beneficiaries added</p>
               ) : (
                 <div className="space-y-2">
                   {parties.filter(p => p.partyRole === 'BENEFICIARY').map((p) => (
-                    <div key={p.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div key={p.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                       <div>
-                        <span className="text-sm font-medium text-gray-800">
+                        <span className="text-sm font-medium text-slate-800">
                           {p.beneficiaryType === 'DIRECT' ? p.fullName :
                            p.beneficiaryType === 'COMPANY' ? p.fullName :
                            p.groupDescription || 'Indirect Group'}
                         </span>
-                        <span className="text-xs text-gray-400 ml-2">({p.beneficiaryType})</span>
+                        <span className="text-xs text-slate-400 ml-2">({p.beneficiaryType})</span>
                         <StatusBadge status={p.verificationStatus} />
                       </div>
                       <div className="flex items-center gap-2">
                         <button type="button" onClick={() => editParty(p)}
-                          className="text-xs text-gray-500 hover:text-gray-700 underline cursor-pointer">Edit</button>
+                          className="text-xs text-slate-500 hover:text-slate-700 underline cursor-pointer">Edit</button>
                         <button type="button" onClick={() => handleRemoveParty(p.id)}
                           className="text-xs text-red-500 hover:text-red-700 underline cursor-pointer">Remove</button>
                       </div>
@@ -846,16 +846,16 @@ export default function FolioFormPage() {
 
           {/* Beneficiary form */}
           {partyFormOpen && partyForm.partyRole === 'BENEFICIARY' && (
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+              <h3 className="text-sm font-semibold text-slate-900 mb-4">
                 {editingPartyId ? 'Edit' : 'Add'} Beneficiary
               </h3>
               <form onSubmit={handleAddParty} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Beneficiary Type</label>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Beneficiary Type</label>
                     <select value={partyForm.beneficiaryType} onChange={(e) => setPartyForm({ ...partyForm, beneficiaryType: e.target.value })}
-                      className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" required>
+                      className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" required>
                       <option value="">Select</option>
                       <option value="DIRECT">Direct (Individual)</option>
                       <option value="INDIRECT">Indirect (Group)</option>
@@ -865,14 +865,14 @@ export default function FolioFormPage() {
                   {partyForm.beneficiaryType === 'DIRECT' && (
                     <>
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Full Name</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Full Name</label>
                         <input value={partyForm.fullName} onChange={(e) => setPartyForm({ ...partyForm, fullName: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">ID Type</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">ID Type</label>
                         <select value={partyForm.idType} onChange={(e) => setPartyForm({ ...partyForm, idType: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none">
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none">
                           <option value="">Select</option>
                           <option value="NIC">NIC</option>
                           <option value="PASSPORT">Passport</option>
@@ -880,50 +880,50 @@ export default function FolioFormPage() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">ID Number</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">ID Number</label>
                         <input value={partyForm.idNumber} onChange={(e) => setPartyForm({ ...partyForm, idNumber: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Address</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Address</label>
                         <input value={partyForm.address} onChange={(e) => setPartyForm({ ...partyForm, address: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                       </div>
                     </>
                   )}
                   {partyForm.beneficiaryType === 'INDIRECT' && (
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Group Description</label>
+                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Group Description</label>
                       <textarea value={partyForm.groupDescription} onChange={(e) => setPartyForm({ ...partyForm, groupDescription: e.target.value })}
-                        rows={3} className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-none" />
+                        rows={3} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-none" />
                     </div>
                   )}
                   {partyForm.beneficiaryType === 'COMPANY' && (
                     <>
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Company Name</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Company Name</label>
                         <input value={partyForm.fullName} onChange={(e) => setPartyForm({ ...partyForm, fullName: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Company Reg. Number</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Company Reg. Number</label>
                         <input value={partyForm.companyRegNumber} onChange={(e) => setPartyForm({ ...partyForm, companyRegNumber: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Address</label>
+                        <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Address</label>
                         <input value={partyForm.address} onChange={(e) => setPartyForm({ ...partyForm, address: e.target.value })}
-                          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none" />
+                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none" />
                       </div>
                     </>
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <button type="submit" className="px-4 py-2 bg-maroon-700 hover:bg-maroon-800 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer">
+                  <button type="submit" className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-md shadow-blue-600/25 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer">
                     {editingPartyId ? 'Update' : 'Add'} Beneficiary
                   </button>
                   <button type="button" onClick={() => { setPartyFormOpen(false); setEditingPartyId(null); setPartyForm(initialPartyForm); }}
-                    className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
+                    className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer">Cancel</button>
                 </div>
               </form>
             </div>
@@ -934,22 +934,22 @@ export default function FolioFormPage() {
       {/* Section: Properties */}
       {section === 'properties' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-              <h2 className="text-sm font-semibold text-gray-900">Trust Properties</h2>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100">
+              <h2 className="text-sm font-semibold text-slate-900">Trust Properties</h2>
               <button type="button" onClick={() => { setPropForm(initialPropertyForm); setEditingPropId(null); setPropFormOpen(true); }}
-                className="text-xs font-medium text-maroon-700 hover:text-maroon-800 underline cursor-pointer">+ Add</button>
+                className="text-xs font-medium text-blue-700 hover:text-blue-800 underline cursor-pointer">+ Add</button>
             </div>
             <div className="p-5">
               {properties.length === 0 ? (
-                <p className="text-sm text-gray-400">No properties added</p>
+                <p className="text-sm text-slate-400">No properties added</p>
               ) : (
                 <div className="space-y-2">
                   {properties.map((p) => (
-                    <div key={p.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div key={p.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                       <div>
-                        <span className="text-sm font-medium text-gray-800">{propertyTypeLabels[p.propertyType] || p.propertyType}</span>
-                        <span className="text-xs text-gray-400 ml-2">
+                        <span className="text-sm font-medium text-slate-800">{propertyTypeLabels[p.propertyType] || p.propertyType}</span>
+                        <span className="text-xs text-slate-400 ml-2">
                           {p.propertyType === 'MONEY' ? `${p.amount ?? ''} ${p.currency ?? ''}` :
                            p.propertyType === 'LAND' ? `${p.landAmount ?? ''}p (${p.landRegistrationNumber ?? '-'})` :
                            p.propertyType === 'VEHICLE' ? p.vehicleDetails?.substring(0, 50) :
@@ -958,7 +958,7 @@ export default function FolioFormPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <button type="button" onClick={() => editProperty(p)}
-                          className="text-xs text-gray-500 hover:text-gray-700 underline cursor-pointer">Edit</button>
+                          className="text-xs text-slate-500 hover:text-slate-700 underline cursor-pointer">Edit</button>
                         <button type="button" onClick={() => handleRemoveProperty(p.id)}
                           className="text-xs text-red-500 hover:text-red-700 underline cursor-pointer">Remove</button>
                       </div>
@@ -970,18 +970,18 @@ export default function FolioFormPage() {
           </div>
 
           {propFormOpen && (
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+              <h3 className="text-sm font-semibold text-slate-900 mb-4">
                 {editingPropId ? 'Edit' : 'Add'} Property
               </h3>
               <form onSubmit={handleAddProperty} className="space-y-4">
                 {renderPropertyFormFields()}
                 <div className="flex gap-2">
-                  <button type="submit" className="px-4 py-2 bg-maroon-700 hover:bg-maroon-800 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer">
+                  <button type="submit" className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-md shadow-blue-600/25 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer">
                     {editingPropId ? 'Update' : 'Add'} Property
                   </button>
                   <button type="button" onClick={() => { setPropFormOpen(false); setEditingPropId(null); setPropForm(initialPropertyForm); }}
-                    className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
+                    className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer">Cancel</button>
                 </div>
               </form>
             </div>
@@ -991,19 +991,19 @@ export default function FolioFormPage() {
 
       {/* Party form for non-beneficiary roles */}
       {partyFormOpen && partyForm.partyRole !== 'BENEFICIARY' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => { setPartyFormOpen(false); setEditingPartyId(null); setPartyForm(initialPartyForm); }}>
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onClick={() => { setPartyFormOpen(false); setEditingPartyId(null); setPartyForm(initialPartyForm); }}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">
               {editingPartyId ? 'Edit' : 'Add'} {roleLabels[partyForm.partyRole] || 'Party'}
             </h3>
             <form onSubmit={handleAddParty} className="space-y-4">
               {renderPartyFormFields()}
               <div className="flex gap-2 pt-2">
-                <button type="submit" className="px-4 py-2 bg-maroon-700 hover:bg-maroon-800 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer">
+                <button type="submit" className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-md shadow-blue-600/25 text-white text-sm font-medium rounded-lg transition-colors cursor-pointer">
                   {editingPartyId ? 'Update' : 'Add'}
                 </button>
                 <button type="button" onClick={() => { setPartyFormOpen(false); setEditingPartyId(null); setPartyForm(initialPartyForm); }}
-                  className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
+                  className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer">Cancel</button>
               </div>
             </form>
           </div>
@@ -1013,23 +1013,23 @@ export default function FolioFormPage() {
       {/* Section: Review & Submit */}
       {section === 'review' && (
         <div className="space-y-6">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Folio Summary</h3>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Folio Summary</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div><span className="text-xs text-gray-400">Daybook</span><p className="text-sm font-medium text-gray-900">{folio.daybookNumber}</p></div>
-              <div><span className="text-xs text-gray-400">Trust Type</span><p className="text-sm font-medium text-gray-900">{folio.trustType}</p></div>
-              <div><span className="text-xs text-gray-400">Trust Name</span><p className="text-sm font-medium text-gray-900">{trustName || '-'}</p></div>
-              <div><span className="text-xs text-gray-400">Folio Number</span><p className="text-sm font-medium text-gray-900">{volumeNumber || '-'}/{folioNumber || '-'}</p></div>
-              <div><span className="text-xs text-gray-400">Parties</span><p className="text-sm font-medium text-gray-900">{parties.length}</p></div>
-              <div><span className="text-xs text-gray-400">Properties</span><p className="text-sm font-medium text-gray-900">{properties.length}</p></div>
-              <div><span className="text-xs text-gray-400">Notary</span><p className="text-sm font-medium text-gray-900">{selectedNotary?.fullName || notaryQuery || '—'}</p></div>
-              <div><span className="text-xs text-gray-400">Notary Status</span><p className="text-sm font-medium text-gray-900">{selectedNotary?.status || '—'}</p></div>
+              <div><span className="text-xs text-slate-400">Daybook</span><p className="text-sm font-medium text-slate-900">{folio.daybookNumber}</p></div>
+              <div><span className="text-xs text-slate-400">Trust Type</span><p className="text-sm font-medium text-slate-900">{folio.trustType}</p></div>
+              <div><span className="text-xs text-slate-400">Trust Name</span><p className="text-sm font-medium text-slate-900">{trustName || '-'}</p></div>
+              <div><span className="text-xs text-slate-400">Folio Number</span><p className="text-sm font-medium text-slate-900">{volumeNumber || '-'}/{folioNumber || '-'}</p></div>
+              <div><span className="text-xs text-slate-400">Parties</span><p className="text-sm font-medium text-slate-900">{parties.length}</p></div>
+              <div><span className="text-xs text-slate-400">Properties</span><p className="text-sm font-medium text-slate-900">{properties.length}</p></div>
+              <div><span className="text-xs text-slate-400">Notary</span><p className="text-sm font-medium text-slate-900">{selectedNotary?.fullName || notaryQuery || '—'}</p></div>
+              <div><span className="text-xs text-slate-400">Notary Status</span><p className="text-sm font-medium text-slate-900">{selectedNotary?.status || '—'}</p></div>
             </div>
           </div>
 
           {/* Upload scanned deed */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Upload scanned deed (required)</h3>
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3">Upload scanned deed (required)</h3>
             {deedFileName ? (
               <div className="flex items-center gap-2 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
                 <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1046,8 +1046,8 @@ export default function FolioFormPage() {
               </div>
             ) : (
               <div className="flex items-center gap-3">
-                <label className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700">
-                  <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <label className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors text-sm font-medium text-slate-700">
+                  <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                   </svg>
                   Choose file
@@ -1061,15 +1061,15 @@ export default function FolioFormPage() {
                     }}
                   />
                 </label>
-                <span className="text-sm text-gray-400">PDF or image</span>
+                <span className="text-sm text-slate-400">PDF or image</span>
                 {deedFile && (
                   <>
-                    <span className="text-sm text-gray-600 ml-1">{deedFile.name}</span>
+                    <span className="text-sm text-slate-600 ml-1">{deedFile.name}</span>
                     <button
                       type="button"
                       onClick={handleDeedUpload}
                       disabled={deedUploading}
-                      className="px-4 py-2 bg-maroon-700 hover:bg-maroon-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 shadow-md shadow-blue-600/25 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
                     >
                       {deedUploading ? 'Uploading...' : 'Upload'}
                     </button>
@@ -1098,7 +1098,7 @@ export default function FolioFormPage() {
                     }
                   }}
                   disabled={registerCorrectionMutation.isPending}
-                  className="px-6 py-2.5 bg-green-700 hover:bg-green-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                  className="px-6 py-2.5 bg-green-700 hover:bg-green-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
                 >
                   {registerCorrectionMutation.isPending ? 'Registering...' : 'Register Folio'}
                 </button>
@@ -1108,21 +1108,21 @@ export default function FolioFormPage() {
             <button
               onClick={() => { setError(''); setConfirmAction('submit'); }}
               disabled={loading || !!isBlocked || !deedFileName}
-              className="px-6 py-2.5 bg-green-700 hover:bg-green-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+              className="px-6 py-2.5 bg-green-700 hover:bg-green-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
               Submit — register deed
             </button>
             <button
               onClick={() => { setError(''); setConfirmAction('report'); }}
               disabled={loading}
-              className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+              className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
               Report deed
             </button>
             <button
               onClick={() => { setError(''); setConfirmAction('reject'); }}
               disabled={loading}
-              className="px-6 py-2.5 bg-red-700 hover:bg-red-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+              className="px-6 py-2.5 bg-red-700 hover:bg-red-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
               Reject deed
             </button>
@@ -1130,7 +1130,7 @@ export default function FolioFormPage() {
               <button
                 onClick={() => { setError(''); setShowSuspiciousDialog(true); }}
                 disabled={loading}
-                className="px-6 py-2.5 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                className="px-6 py-2.5 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 ! Flag Suspicious
               </button>
@@ -1143,8 +1143,8 @@ export default function FolioFormPage() {
 
       {/* Suspicious Flag Dialog */}
       {showSuspiciousDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => { setShowSuspiciousDialog(false); setSuspiciousReason(''); setSuspiciousConcerns([]); }}>
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onClick={() => { setShowSuspiciousDialog(false); setSuspiciousReason(''); setSuspiciousConcerns([]); }}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
                 <svg className="w-5 h-5 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -1152,31 +1152,31 @@ export default function FolioFormPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-gray-900">Flag Suspicious Activity</h3>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <h3 className="text-sm font-semibold text-slate-900">Flag Suspicious Activity</h3>
+                <p className="text-xs text-slate-400 mt-0.5">
                   Trust: {trustName || '—'} &bull; Daybook: {folio.daybookNumber}
                 </p>
               </div>
             </div>
 
-            <div className="space-y-1 mb-4 p-3 bg-gray-50 rounded-lg text-xs text-gray-500">
-              <p><span className="font-medium text-gray-700">Parties:</span> {parties.length} recorded</p>
-              <p><span className="font-medium text-gray-700">Deed scan:</span> {deedFileName || 'Not uploaded'}</p>
+            <div className="space-y-1 mb-4 p-3 bg-slate-50 rounded-lg text-xs text-slate-500">
+              <p><span className="font-medium text-slate-700">Parties:</span> {parties.length} recorded</p>
+              <p><span className="font-medium text-slate-700">Deed scan:</span> {deedFileName || 'Not uploaded'}</p>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-gray-700 block mb-1.5">Reason for suspicion *</label>
+                <label className="text-xs font-semibold text-slate-700 block mb-1.5">Reason for suspicion *</label>
                 <textarea
                   value={suspiciousReason}
                   onChange={(e) => setSuspiciousReason(e.target.value)}
                   placeholder="Describe why this folio appears suspicious..."
                   rows={3}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-600 outline-none resize-none"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-yellow-500/20 focus:border-yellow-600 outline-none resize-none"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-gray-700 block mb-1.5">Concerns</label>
+                <label className="text-xs font-semibold text-slate-700 block mb-1.5">Concerns</label>
                 <div className="space-y-2">
                   {[
                     { value: 'MONEY_LAUNDERING', label: 'Money laundering' },
@@ -1185,7 +1185,7 @@ export default function FolioFormPage() {
                     { value: 'IDENTITY_ISSUES', label: 'Identity issues' },
                     { value: 'OTHER', label: 'Other' },
                   ].map((c) => (
-                    <label key={c.value} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                    <label key={c.value} className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={suspiciousConcerns.includes(c.value)}
@@ -1209,7 +1209,7 @@ export default function FolioFormPage() {
               <div className="mt-3 px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">{error}</div>
             )}
 
-            <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100">
+            <div className="flex gap-2 mt-4 pt-3 border-t border-slate-100">
               <button
                 onClick={async () => {
                   if (!suspiciousReason.trim()) return;
@@ -1231,13 +1231,13 @@ export default function FolioFormPage() {
                   }
                 }}
                 disabled={suspiciousSubmitting || !suspiciousReason.trim()}
-                className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {suspiciousSubmitting ? 'Submitting...' : 'Submit Report'}
               </button>
               <button
                 onClick={() => { setShowSuspiciousDialog(false); setSuspiciousReason(''); setSuspiciousConcerns([]); }}
-                className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -1248,13 +1248,13 @@ export default function FolioFormPage() {
 
       {/* Confirmation Dialog */}
       {confirmAction && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => { setConfirmAction(null); setActionReason(''); }}>
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onClick={() => { setConfirmAction(null); setActionReason(''); }}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-sm font-semibold text-slate-900 mb-2">
               {confirmAction === 'submit' ? 'Submit Folio' :
                confirmAction === 'report' ? 'Report Folio' : 'Reject Folio'}
             </h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-slate-600 mb-4">
               {confirmAction === 'submit' ? 'Are you sure you want to submit this folio for registration? The deed scan will be included.' :
                confirmAction === 'report' ? 'This will mark the folio as REPORTED and notify the notary. Enter reason below:' :
                'This will reject the folio permanently. A red seal will be applied. Enter reason below:'}
@@ -1264,7 +1264,7 @@ export default function FolioFormPage() {
                 value={actionReason}
                 onChange={(e) => setActionReason(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-none mb-4"
+                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-none mb-4"
                 placeholder={confirmAction === 'report' ? 'Reason for reporting...' : 'Reason for rejection...'}
                 required
               />
@@ -1277,12 +1277,12 @@ export default function FolioFormPage() {
                   confirmAction === 'submit' ? 'bg-green-700 hover:bg-green-800' :
                   confirmAction === 'report' ? 'bg-orange-600 hover:bg-orange-700' :
                   'bg-red-700 hover:bg-red-800'
-                } disabled:bg-gray-300 disabled:cursor-not-allowed`}
+                } disabled:opacity-60 disabled:cursor-not-allowed`}
               >
                 {loading ? 'Processing...' : 'Confirm'}
               </button>
               <button onClick={() => { setConfirmAction(null); setActionReason(''); }}
-                className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">Cancel</button>
+                className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer">Cancel</button>
             </div>
           </div>
         </div>
@@ -1299,12 +1299,12 @@ function StatusBadge({ status }: { status: string }) {
     REJECTED: 'bg-red-50 text-red-700',
     REPORTED: 'bg-orange-50 text-orange-700',
     PENDING_CORRECTION: 'bg-blue-50 text-blue-700',
-    SUPERSEDED: 'bg-gray-100 text-gray-600',
+    SUPERSEDED: 'bg-slate-100 text-slate-600',
     VERIFIED: 'bg-green-50 text-green-700',
     FAILED: 'bg-red-50 text-red-700',
   };
   return (
-    <span className={`inline-flex items-center text-[10px] font-medium px-1.5 py-0.5 rounded-full ${colors[status] || 'bg-gray-100 text-gray-600'}`}>
+    <span className={`inline-flex items-center text-[10px] font-medium px-1.5 py-0.5 rounded-full ${colors[status] || 'bg-slate-100 text-slate-600'}`}>
       {status}
     </span>
   );

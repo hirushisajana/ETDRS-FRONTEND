@@ -20,6 +20,20 @@ const headOfficeRoles: { value: HeadOfficeRole; label: string }[] = [
   { value: 'SUPERVISOR', label: 'Supervisor' },
 ];
 
+const inputClass =
+  'w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-700 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20';
+
+function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+  return (
+    <div className="mb-5">
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">
+        {label} {required && <span className="text-rose-500">*</span>}
+      </label>
+      {children}
+    </div>
+  );
+}
+
 export default function UserFormPage() {
   const navigate = useNavigate();
   const { data: registries } = useQuery({
@@ -35,8 +49,13 @@ export default function UserFormPage() {
     registryId: '',
   });
 
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setSubmitting(true);
     try {
       if (formData.role === 'HEAD_OFFICE') {
         await userApi.createHeadOffice({
@@ -60,38 +79,46 @@ export default function UserFormPage() {
       }
       navigate('/users');
     } catch (err) {
-      console.error('Failed to create user', err);
+      const msg =
+        err && typeof err === 'object' && 'response' in err
+          ? (err as { response: { data?: { message?: string } } }).response?.data?.message
+          : undefined;
+      setError(msg || 'Failed to create user.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return (
-    <div>
+    <div className="max-w-[720px] p-6 lg:p-8">
       <PageHeader title="Add User" description="Create a new system user" />
+      {error && (
+        <div className="mb-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
       <Card>
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-field">
-            <label className="form-label">Full Name *</label>
+        <form onSubmit={handleSubmit}>
+          <Field label="Full Name" required>
             <input
-              className="form-input"
+              className={inputClass}
               value={formData.fullName}
               onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
               required
             />
-          </div>
-          <div className="form-field">
-            <label className="form-label">Email *</label>
+          </Field>
+          <Field label="Email" required>
             <input
               type="email"
-              className="form-input"
+              className={inputClass}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
-          </div>
-          <div className="form-field">
-            <label className="form-label">Role *</label>
+          </Field>
+          <Field label="Role" required>
             <select
-              className="form-select"
+              className={`${inputClass} cursor-pointer appearance-none`}
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
               required
@@ -101,13 +128,12 @@ export default function UserFormPage() {
                 <option key={r.value} value={r.value}>{r.label}</option>
               ))}
             </select>
-          </div>
+          </Field>
 
           {formData.role === 'HEAD_OFFICE' && (
-            <div className="form-field">
-              <label className="form-label">Head Office Role *</label>
+            <Field label="Head Office Role" required>
               <select
-                className="form-select"
+                className={`${inputClass} cursor-pointer appearance-none`}
                 value={formData.headOfficeRole}
                 onChange={(e) => setFormData({ ...formData, headOfficeRole: e.target.value as HeadOfficeRole })}
                 required
@@ -117,14 +143,13 @@ export default function UserFormPage() {
                   <option key={r.value} value={r.value}>{r.label}</option>
                 ))}
               </select>
-            </div>
+            </Field>
           )}
 
           {formData.role && formData.role !== 'HEAD_OFFICE' && formData.role !== 'SUPER_ADMIN' && (
-            <div className="form-field">
-              <label className="form-label">Registry *</label>
+            <Field label="Registry" required>
               <select
-                className="form-select"
+                className={`${inputClass} cursor-pointer appearance-none`}
                 value={formData.registryId}
                 onChange={(e) => setFormData({ ...formData, registryId: e.target.value })}
                 required
@@ -134,14 +159,24 @@ export default function UserFormPage() {
                   <option key={r.id} value={r.id}>{r.name} ({r.registryCode})</option>
                 ))}
               </select>
-            </div>
+            </Field>
           )}
 
-          <div className="form-actions">
-            <button type="button" className="btn btn-secondary" onClick={() => navigate('/users')}>
+          <div className="mt-6 flex items-center justify-end gap-3 border-t border-slate-100 pt-5">
+            <button
+              type="button"
+              className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              onClick={() => navigate('/users')}
+            >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary">Create User</button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/30 transition-all hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {submitting ? 'Creating...' : 'Create User'}
+            </button>
           </div>
         </form>
       </Card>

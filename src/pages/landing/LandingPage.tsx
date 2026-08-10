@@ -1,171 +1,349 @@
 import { useNavigate } from 'react-router-dom'
+import {
+  ShieldCheck,
+  GitBranch,
+  BadgeCheck,
+  Globe,
+  ArrowRight,
+  Lock,
+  Clock,
+  Users,
+  Sparkles,
+} from 'lucide-react'
+import nationalEmblem from '../../../images/national.png'
+import rgdLogo from '../../../images/RGD.png'
 
-const footerLinks = [
-  { label: 'Privacy Policy', href: '#' },
-  { label: 'Terms of Use', href: '#' },
-  { label: 'Sitemap', href: '#' },
+const features = [
+  {
+    icon: ShieldCheck,
+    title: 'Secure Trust Registration',
+    description:
+      'Electronic registration of trust deeds under Chapter 87 of the Sri Lanka Trust Ordinance.',
+    accent: 'from-blue-600 to-blue-500',
+  },
+  {
+    icon: GitBranch,
+    title: 'Folio Chain Tracking',
+    description:
+      'Maintain an unbroken chain of title for every trust folio from creation to the latest entry.',
+    accent: 'from-cyan-500 to-teal-400',
+  },
+  {
+    icon: BadgeCheck,
+    title: 'Digital Certificates',
+    description:
+      'Issue and verify trust certificates online, replacing paper-based documentation.',
+    accent: 'from-emerald-500 to-lime-400',
+  },
+  {
+    icon: Globe,
+    title: '24/7 Public Portal',
+    description:
+      'Trustees, beneficiaries and parties can access trust details and registrations at any time.',
+    accent: 'from-violet-500 to-purple-400',
+  },
+]
+
+const trustBadges = [
+  { icon: Lock, label: 'Encrypted & Secure' },
+  { icon: Clock, label: 'Fast Digital Service' },
+  { icon: Users, label: 'Serving the Public' },
 ]
 
 export default function LandingPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen flex flex-col bg-maroon-950">
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900 antialiased">
 
       {/* ═══ NAVBAR ═══ */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/10 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
-            {/* Brand */}
-            <span className="text-white/75 text-sm font-medium tracking-wide">
-              Electronic Trust Registration System
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/60 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <a href="#" className="flex items-center gap-2.5">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-500/30">
+              <span className="text-sm font-black tracking-tight">eT</span>
             </span>
-            {/* Nav links */}
-            <div className="flex items-center gap-8">
-              {['About', 'Contact', 'Help'].map((label) => (
-                <a
-                  key={label}
-                  href="#"
-                  className="text-sm text-white/55 hover:text-white/90 transition-colors"
-                >
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
+            <span className="text-base font-bold tracking-tight text-white">
+              e-Trust<span className="text-blue-400">.</span>
+            </span>
+          </a>
+
+          <nav className="hidden items-center gap-8 md:flex">
+            <a href="#about" className="text-sm font-medium text-slate-300 transition-colors hover:text-white">
+              About
+            </a>
+            <a href="#access" className="text-sm font-medium text-slate-300 transition-colors hover:text-white">
+              Access
+            </a>
+            <a href="#contact" className="text-sm font-medium text-slate-300 transition-colors hover:text-white">
+              Contact
+            </a>
+          </nav>
+
+          <button
+            onClick={() => navigate('/login')}
+            className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition-all hover:bg-blue-50 active:scale-[0.98]"
+          >
+            Sign In
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
-      </nav>
+      </header>
 
       {/* ═══ HERO ═══ */}
-      <section className="relative flex-1 flex items-center justify-center bg-gradient-to-b from-maroon-900 via-maroon-950 to-maroon-950 overflow-hidden">
-        {/* Subtle pattern overlay */}
+      <section className="relative overflow-hidden bg-slate-950">
+        {/* Ambient glows */}
+        <div className="pointer-events-none absolute -left-32 -top-40 h-[28rem] w-[28rem] rounded-full bg-blue-600/30 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 top-1/4 h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl" />
+
+        {/* Grid pattern */}
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage:
+              'linear-gradient(to right, rgba(148,163,184,0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.25) 1px, transparent 1px)',
+            backgroundSize: '56px 56px',
           }}
         />
 
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 py-24 text-center">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-28">
+          {/* Left: headline + CTAs */}
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/10 px-4 py-1.5 text-xs font-semibold text-blue-200">
+              <Sparkles className="h-3.5 w-3.5" />
+              Official Registrar General's Platform
+            </span>
 
-          {/* Emblems */}
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="flex items-center justify-center rounded-2xl p-3">
-              <img src="/national.jpg?v=2" alt="National Emblem of Sri Lanka" className="h-16 w-auto sm:h-20 mix-blend-multiply brightness-[1.3]" />
-            </div>
-            <span className="text-maroon-400/30 text-3xl font-thin">|</span>
-            <div className="flex items-center justify-center rounded-2xl p-3">
-              <img src="/RGD.png" alt="Registrar General's Department Logo" className="h-16 w-auto sm:h-20 mix-blend-multiply brightness-[1.3]" />
-            </div>
-          </div>
-
-          {/* Republic title */}
-          <p className="text-maroon-300/60 text-[10px] sm:text-xs tracking-[0.28em] font-medium mb-8">
-            DEMOCRATIC SOCIALIST REPUBLIC OF SRI LANKA
-          </p>
-
-          {/* Department title */}
-          <div className="mb-3">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
-              Registrar General's Department
+            <h1 className="mt-6 text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              Electronic Trust
+              <span className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent">
+                Registration System
+              </span>
             </h1>
-            <p className="text-base sm:text-lg text-maroon-200/70 mt-1.5 font-light tracking-wide">
-              Electronic Trust Registration System
+
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
+              Digitising the registration, management and verification of trust deeds across
+              Sri Lanka — faster, fully verified and more transparent than ever.
             </p>
-          </div>
 
-          {/* Divider */}
-          <div className="flex items-center justify-center gap-4 my-12">
-            <span className="block h-px w-16 bg-maroon-700/30" />
-            <span className="text-maroon-500/40 text-base">✦</span>
-            <span className="block h-px w-16 bg-maroon-700/30" />
-          </div>
-
-          {/* Two Access Cards */}
-          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-
-            {/* Staff Login */}
-            <div className="group relative bg-white/[0.04] backdrop-blur-sm border border-maroon-700/20 rounded-2xl p-8 text-center transition-all duration-300 hover:bg-white/[0.07] hover:border-maroon-400/40 hover:shadow-[0_0_40px_-8px_rgba(192,168,81,0.12)] hover:-translate-y-0.5">
-              <div className="w-14 h-14 mx-auto mb-5 rounded-full bg-maroon-800/50 flex items-center justify-center group-hover:bg-maroon-700/60 transition-colors">
-                <svg className="w-7 h-7 text-maroon-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                </svg>
-              </div>
-              <h2 className="text-lg font-semibold text-white mb-2">Internal Staff Login</h2>
-              <p className="text-sm text-maroon-200/60 leading-relaxed mb-6">
-                For authorised land registry staff and head office personnel.
-                <br />
-                <span className="text-maroon-300/40 text-xs">Access by invitation only — no self-registration.</span>
-              </p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => navigate('/register')}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-600/30 transition-all hover:from-blue-500 hover:to-blue-400 active:scale-[0.98]"
+              >
+                Public Portal
+                <ArrowRight className="h-4 w-4" />
+              </button>
               <button
                 onClick={() => navigate('/login')}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-maroon-700 hover:bg-maroon-600 text-white text-sm font-medium transition-all duration-200 shadow-lg shadow-maroon-900/30 hover:shadow-maroon-700/40 active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-all hover:bg-white/10 active:scale-[0.98]"
               >
+                Internal Staff Login
+              </button>
+            </div>
+
+            {/* Trust badges */}
+            <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
+              {trustBadges.map(({ icon: Icon, label }) => (
+                <div key={label} className="flex items-center gap-2 text-sm text-slate-400">
+                  <Icon className="h-4 w-4 text-blue-400" />
+                  {label}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right: emblem panel */}
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-tr from-blue-600/40 to-cyan-400/20 blur-2xl" />
+            <div className="relative rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl sm:p-10">
+              {/* Logos */}
+              <div className="flex items-center justify-center gap-6">
+                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-xl ring-1 ring-slate-900/5 sm:h-24 sm:w-24">
+                  <img src={nationalEmblem} alt="National Emblem of Sri Lanka" className="h-14 w-auto object-contain mix-blend-multiply sm:h-16" />
+                </div>
+                <span className="h-px w-8 bg-white/20 sm:w-12" />
+                <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-xl ring-1 ring-slate-900/5 sm:h-24 sm:w-24">
+                  <img src={rgdLogo} alt="Registrar General's Department Logo" className="h-14 w-auto object-contain sm:h-16" />
+                </div>
+              </div>
+
+              <p className="mt-8 text-center text-[10px] font-semibold tracking-[0.3em] text-blue-200/90 sm:text-[11px]">
+                DEMOCRATIC SOCIALIST REPUBLIC OF SRI LANKA
+              </p>
+              <div className="mx-auto mt-4 h-px w-28 bg-gradient-to-r from-transparent via-blue-300/50 to-transparent" />
+              <h2 className="mt-5 text-center text-xl font-bold leading-tight text-white sm:text-2xl">
+                Registrar General's Department
+              </h2>
+              <p className="mt-2.5 text-center text-sm font-light tracking-wide text-blue-100/70">
+                Electronic Trust Registration System
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom fade into page */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-50 to-transparent" />
+      </section>
+
+      {/* ═══ ACCESS CARDS ═══ */}
+      <section id="access" className="bg-slate-50">
+        <div className="mx-auto max-w-5xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <span className="text-xs font-bold uppercase tracking-[0.25em] text-blue-700">
+              Two Ways In
+            </span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              Choose how you access the system
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {/* Staff Login */}
+            <div
+              onClick={() => navigate('/login')}
+              className="group cursor-pointer overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 transition-colors group-hover:bg-blue-100">
+                  <Lock className="h-7 w-7" />
+                </div>
+                <ArrowRight className="h-5 w-5 text-slate-300 transition-all group-hover:translate-x-1 group-hover:text-blue-700" />
+              </div>
+              <h3 className="mt-6 text-xl font-bold text-slate-900">Internal Staff Login</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                For authorised land registry staff and head office personnel. Access by
+                invitation only — no self-registration.
+              </p>
+              <button className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700">
                 Go to Staff Login
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
+                <ArrowRight className="h-4 w-4" />
               </button>
             </div>
 
             {/* Public Portal */}
-            <div className="group relative bg-white/[0.04] backdrop-blur-sm border border-maroon-700/20 rounded-2xl p-8 text-center transition-all duration-300 hover:bg-white/[0.07] hover:border-maroon-400/40 hover:shadow-[0_0_40px_-8px_rgba(192,168,81,0.12)] hover:-translate-y-0.5">
-              <div className="w-14 h-14 mx-auto mb-5 rounded-full bg-maroon-800/50 flex items-center justify-center group-hover:bg-maroon-700/60 transition-colors">
-                <svg className="w-7 h-7 text-maroon-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
-                </svg>
+            <div
+              onClick={() => navigate('/register')}
+              className="group cursor-pointer overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700 transition-colors group-hover:bg-blue-100">
+                  <Globe className="h-7 w-7" />
+                </div>
+                <ArrowRight className="h-5 w-5 text-slate-300 transition-all group-hover:translate-x-1 group-hover:text-blue-700" />
               </div>
-              <h2 className="text-lg font-semibold text-white mb-2">Public Portal</h2>
-              <p className="text-sm text-maroon-200/60 leading-relaxed mb-6">
-                For trust parties, beneficiaries, and trustees.
-                <br />
-                <span className="text-maroon-300/40 text-xs">Register or sign in to view your trust details and certificates.</span>
+              <h3 className="mt-6 text-xl font-bold text-slate-900">Public Portal</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                For trust parties, beneficiaries and trustees. Register or sign in to view
+                your trust details and certificates.
               </p>
-              <button
-                onClick={() => navigate('/register')}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-maroon-700 hover:bg-maroon-600 text-white text-sm font-medium transition-all duration-200 shadow-lg shadow-maroon-900/30 hover:shadow-maroon-700/40 active:scale-[0.98]"
-              >
+              <button className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700">
                 Register or Sign In
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
+                <ArrowRight className="h-4 w-4" />
               </button>
             </div>
+          </div>
+        </div>
+      </section>
 
+      {/* ═══ FEATURES ═══ */}
+      <section id="about" className="border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.25em] text-blue-700">
+                About the System
+              </span>
+              <h2 className="mt-3 max-w-xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                Everything you expect, nothing you don't
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm leading-relaxed text-slate-500">
+              A purpose-built platform for the Registrar General's Department, engineered
+              for reliability, transparency and ease of use.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {features.map(({ icon: Icon, title, description, accent }) => (
+              <div
+                key={title}
+                className="group rounded-3xl border border-slate-200 bg-slate-50 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-900/5"
+              >
+                <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${accent} text-white shadow-lg`}>
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-base font-bold text-slate-900">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-500">{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CTA BAND ═══ */}
+      <section className="bg-slate-950">
+        <div className="relative overflow-hidden">
+          <div className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full bg-blue-600/30 blur-3xl" />
+          <div className="pointer-events-none absolute -right-20 -bottom-24 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
+          <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              Ready to get started?
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+              Access your trust records through the public portal, or sign in to the
+              internal system as an authorised staff member.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <button
+                onClick={() => navigate('/register')}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-600/30 transition-all hover:from-blue-500 hover:to-blue-400 active:scale-[0.98]"
+              >
+                Open Public Portal
+                <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => navigate('/login')}
+                className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition-all hover:bg-white/10 active:scale-[0.98]"
+              >
+                Staff Sign In
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="bg-maroon-950 border-t border-maroon-800/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
+      <footer id="contact" className="border-t border-white/10 bg-slate-950">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {/* Brand */}
             <div className="sm:col-span-2 lg:col-span-1">
-              <div className="flex items-center gap-2 mb-3">
-                <img src="/national.jpg?v=2" alt="" className="h-7 w-auto mix-blend-multiply brightness-[1.3] opacity-90" />
-                <span className="text-maroon-400/30 text-lg font-thin">|</span>
-                <img src="/RGD.png" alt="" className="h-7 w-auto mix-blend-multiply brightness-[1.3] opacity-90" />
+              <div className="flex items-center gap-2">
+                <img src={nationalEmblem} alt="" className="h-8 w-auto opacity-90 mix-blend-screen" />
+                <span className="text-slate-500 text-lg font-thin">|</span>
+                <img src={rgdLogo} alt="" className="h-8 w-auto opacity-90 mix-blend-screen" />
               </div>
-              <p className="text-sm font-semibold text-maroon-100">Registrar General's Department</p>
-              <p className="text-xs text-maroon-300/50 mt-1 leading-relaxed">
+              <p className="mt-4 text-sm font-semibold text-white">Registrar General's Department</p>
+              <p className="mt-1 text-xs leading-relaxed text-slate-400">
                 Ministry of Public Administration, Sri Lanka
               </p>
-              <p className="text-xs text-maroon-400/40 mt-3 leading-relaxed italic">
-                "Facilitating the registration of trust deeds under Chapter 87 of the Sri Lanka Trust Ordinance."
+              <p className="mt-4 text-xs leading-relaxed italic text-slate-500">
+                "Facilitating the registration of trust deeds under Chapter 87 of the Sri
+                Lanka Trust Ordinance."
               </p>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-xs font-semibold text-maroon-300 uppercase tracking-wider mb-4">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">
                 Quick Links
               </h3>
-              <ul className="space-y-2.5">
+              <ul className="mt-4 space-y-2.5">
                 {['About the Department', 'Trust Ordinance — Chapter 87', 'Find Your Land Registry', 'FAQs'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-sm text-maroon-300/60 hover:text-maroon-100 transition-colors">
+                    <a href="#" className="text-sm text-slate-400 transition-colors hover:text-white">
                       {item}
                     </a>
                   </li>
@@ -175,71 +353,48 @@ export default function LandingPage() {
 
             {/* Contact */}
             <div>
-              <h3 className="text-xs font-semibold text-maroon-300 uppercase tracking-wider mb-4">
-                Contact
-              </h3>
-              <ul className="space-y-3 text-sm text-maroon-300/60">
-                <li className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 mt-0.5 shrink-0 text-maroon-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                  </svg>
-                  <span>+94 11 234 5678</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 mt-0.5 shrink-0 text-maroon-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                  </svg>
-                  <span>registrar@rgd.gov.lk</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 mt-0.5 shrink-0 text-maroon-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                  </svg>
-                  <span>No. 123, Bauddhaloka Mawatha,<br />Colombo 07, Sri Lanka</span>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">Contact</h3>
+              <ul className="mt-4 space-y-3 text-sm text-slate-400">
+                <li>+94 11 234 5678</li>
+                <li>registrar@rgd.gov.lk</li>
+                <li>
+                  No. 123, Bauddhaloka Mawatha,
+                  <br />
+                  Colombo 07, Sri Lanka
                 </li>
               </ul>
             </div>
 
             {/* Help */}
             <div>
-              <h3 className="text-xs font-semibold text-maroon-300 uppercase tracking-wider mb-4">
-                Help
-              </h3>
-              <ul className="space-y-2.5">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-white">Help</h3>
+              <ul className="mt-4 space-y-2.5">
                 {['Report a Technical Issue', 'Data Protection Notice', 'Accessibility Statement'].map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-sm text-maroon-300/60 hover:text-maroon-100 transition-colors">
+                    <a href="#" className="text-sm text-slate-400 transition-colors hover:text-white">
                       {item}
                     </a>
                   </li>
                 ))}
               </ul>
             </div>
-
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-maroon-800/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-xs text-maroon-400/40">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-              </svg>
-              <span>Secure .gov.lk connection</span>
+        <div className="border-t border-white/10">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-5 sm:flex-row sm:px-6 lg:px-8">
+            <div className="flex items-center gap-2 text-xs text-slate-500">
+              <Lock className="h-3.5 w-3.5" />
+              Secure .gov.lk connection
             </div>
-            <p className="text-xs text-maroon-400/40">
+            <p className="text-xs text-slate-500">
               &copy; {new Date().getFullYear()} Registrar General's Department. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
-              {footerLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-xs text-maroon-400/50 hover:text-maroon-200 transition-colors"
-                >
-                  {link.label}
+              {['Privacy Policy', 'Terms of Use', 'Sitemap'].map((label) => (
+                <a key={label} href="#" className="text-xs text-slate-500 transition-colors hover:text-white">
+                  {label}
                 </a>
               ))}
             </div>

@@ -43,16 +43,19 @@ interface FormFieldProps {
 
 export function FormField({ label, error, required, children }: FormFieldProps) {
   return (
-    <div className="form-field">
-      <label className="form-label">
+    <div className="mb-5">
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
-        {required && <span className="required">*</span>}
+        {required && <span className="ml-0.5 text-rose-500">*</span>}
       </label>
       {children}
-      {error && <span className="form-error">{error}</span>}
+      {error && <span className="mt-1 block text-xs text-rose-600">{error}</span>}
     </div>
   );
 }
+
+const inputClass =
+  'w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -62,7 +65,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, ...props }, ref) => (
     <FormField label={label} error={error} required={props.required}>
-      <input ref={ref} className={`form-input ${error ? 'input-error' : ''}`} {...props} />
+      <input ref={ref} className={inputClass} {...props} />
     </FormField>
   ),
 );
@@ -76,7 +79,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, error, options, ...props }, ref) => (
     <FormField label={label} error={error} required={props.required}>
-      <select ref={ref} className={`form-select ${error ? 'input-error' : ''}`} {...props}>
+      <select ref={ref} className={`${inputClass} cursor-pointer appearance-none`} {...props}>
         <option value="">Select...</option>
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -94,7 +97,7 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ label, error, ...props }, ref) => (
     <FormField label={label} error={error} required={props.required}>
-      <textarea ref={ref} className={`form-textarea ${error ? 'input-error' : ''}`} {...props} />
+      <textarea ref={ref} className={`${inputClass} min-h-20 resize-y`} {...props} />
     </FormField>
   ),
 );

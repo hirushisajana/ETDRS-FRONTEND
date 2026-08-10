@@ -41,8 +41,8 @@ export default function FolioAdminListPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-lg font-bold text-gray-900">Folio Volumes</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Search and view folio records by year and trust type</p>
+          <h1 className="text-lg font-bold text-slate-900">Folio Volumes</h1>
+          <p className="text-sm text-slate-500 mt-0.5">Search and view folio records by year and trust type</p>
         </div>
       </div>
 
@@ -54,8 +54,8 @@ export default function FolioAdminListPage() {
             onClick={() => setTrustType(t)}
             className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
               trustType === t
-                ? 'bg-maroon-700 text-white'
-                : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
+                ? 'bg-blue-600 text-white'
+                : 'bg-white text-slate-600 border border-slate-300 hover:bg-slate-50'
             }`}
           >
             {t === 'All' ? 'All Trusts' : t === 'EXPRESS' ? 'Express Trust' : 'Normal Trust'}
@@ -66,11 +66,11 @@ export default function FolioAdminListPage() {
       {/* Filters */}
       <div className="flex items-center gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-600 font-medium">Year:</label>
+          <label className="text-sm text-slate-600 font-medium">Year:</label>
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="w-24 px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-maroon-600 focus:border-maroon-600"
+            className="w-24 px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
           >
             {yearsList.map((y) => (
               <option key={y} value={y}>{y}</option>
@@ -81,13 +81,13 @@ export default function FolioAdminListPage() {
           placeholder="Search by folio #, trust name, daybook..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-maroon-600 focus:border-maroon-600"
+          className="flex-1 px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         />
-        <span className="text-sm text-gray-400">{filtered.length} folios</span>
+        <span className="text-sm text-slate-400">{filtered.length} folios</span>
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
         {isLoading ? (
           <LoadingSpinner />
         ) : !filtered.length ? (
@@ -95,29 +95,29 @@ export default function FolioAdminListPage() {
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="w-24 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Folio #</th>
-                <th className="w-40 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Trust Name</th>
-                <th className="w-20 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</th>
-                <th className="w-20 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
-                <th className="w-16 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Volume</th>
-                <th className="w-28 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Daybook</th>
-                <th className="w-28 px-3 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="w-24 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Folio #</th>
+                <th className="w-40 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Trust Name</th>
+                <th className="w-20 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</th>
+                <th className="w-20 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Category</th>
+                <th className="w-16 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Volume</th>
+                <th className="w-28 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Daybook</th>
+                <th className="w-28 px-3 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {filtered.map((folio) => (
                 <tr
                   key={folio.id}
                   onClick={() => navigate(`/folio/admin/${folio.id}`)}
-                  className="hover:bg-gray-50 cursor-pointer transition-colors"
+                  className="hover:bg-slate-50 cursor-pointer transition-colors"
                 >
-                  <td className="px-3 py-2.5 text-gray-900 whitespace-nowrap">{folio.folioNumber ?? '-'}</td>
-                  <td className="px-3 py-2.5 text-gray-900 whitespace-nowrap">{folio.trustName ?? '-'}</td>
-                  <td className="px-3 py-2.5 text-gray-600 whitespace-nowrap">{folio.trustType}</td>
-                  <td className="px-3 py-2.5 text-gray-600 whitespace-nowrap">{folio.trustCategory}</td>
-                  <td className="px-3 py-2.5 text-gray-900 whitespace-nowrap">{folio.volumeNumber ?? '-'}</td>
-                  <td className="px-3 py-2.5 text-gray-600 whitespace-nowrap">{folio.daybookNumber}</td>
+                  <td className="px-3 py-2.5 text-slate-900 whitespace-nowrap">{folio.folioNumber ?? '-'}</td>
+                  <td className="px-3 py-2.5 text-slate-900 whitespace-nowrap">{folio.trustName ?? '-'}</td>
+                  <td className="px-3 py-2.5 text-slate-600 whitespace-nowrap">{folio.trustType}</td>
+                  <td className="px-3 py-2.5 text-slate-600 whitespace-nowrap">{folio.trustCategory}</td>
+                  <td className="px-3 py-2.5 text-slate-900 whitespace-nowrap">{folio.volumeNumber ?? '-'}</td>
+                  <td className="px-3 py-2.5 text-slate-600 whitespace-nowrap">{folio.daybookNumber}</td>
                   <td className="px-3 py-2.5 whitespace-nowrap"><StatusBadge status={folio.approvalStatus} /></td>
                 </tr>
               ))}

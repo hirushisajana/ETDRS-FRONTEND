@@ -18,21 +18,21 @@ export function Navbar() {
   const { user } = useAuth();
 
   return (
-    <header className="fixed top-0 right-0 left-60 z-40 h-14 bg-white border-b border-gray-200">
-      <div className="flex items-center justify-between h-full px-4">
+    <header className="fixed right-0 left-60 top-0 z-40 h-14 border-b border-slate-200 bg-white/80 backdrop-blur-xl">
+      <div className="flex h-full items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          <a href="#" className="text-sm text-gray-400 hover:text-gray-700 transition-colors hidden md:block">About</a>
-          <a href="#" className="text-sm text-gray-400 hover:text-gray-700 transition-colors hidden md:block">Contact</a>
-          <a href="#" className="text-sm text-gray-400 hover:text-gray-700 transition-colors hidden md:block">Help</a>
+          <a href="#" className="hidden text-sm text-slate-400 hover:text-slate-700 transition-colors md:block">About</a>
+          <a href="#" className="hidden text-sm text-slate-400 hover:text-slate-700 transition-colors md:block">Contact</a>
+          <a href="#" className="hidden text-sm text-slate-400 hover:text-slate-700 transition-colors md:block">Help</a>
         </div>
         {user && (
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-maroon-700 flex items-center justify-center text-white text-xs font-semibold">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-500 text-xs font-semibold text-white shadow-lg shadow-blue-600/30">
               {user.fullName?.charAt(0) || 'A'}
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-medium text-gray-800 leading-tight">{user.fullName}</p>
-              <p className="text-[11px] text-gray-400 leading-tight">
+              <p className="text-sm font-medium leading-tight text-slate-800">{user.fullName}</p>
+              <p className="text-[11px] leading-tight text-slate-400">
                 {user.registryName ? `${user.registryName} — ` : ''}{user.role ? formatRole(user.role) : 'Unknown'}
               </p>
             </div>

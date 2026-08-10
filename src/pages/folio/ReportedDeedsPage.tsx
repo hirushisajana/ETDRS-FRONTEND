@@ -64,13 +64,13 @@ This is an automated notification from the Trust Registration System.`,
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-lg font-bold text-gray-900">Deed Records</h1>
+        <h1 className="text-lg font-bold text-slate-900">Deed Records</h1>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500">Filter:</span>
+          <span className="text-xs text-slate-500">Filter:</span>
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none"
+            className="px-3 py-1.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none"
           >
             {statusFilters.map((s) => (
               <option key={s} value={s}>{s}</option>
@@ -88,40 +88,40 @@ This is an automated notification from the Trust Registration System.`,
       {isLoading ? (
         <LoadingSpinner />
       ) : !folios?.length ? (
-        <div className="bg-white border border-gray-200 rounded-lg p-12 text-center text-sm text-gray-400">
+        <div className="bg-white border border-slate-200 rounded-lg p-12 text-center text-sm text-slate-400">
           No {filterStatus.toLowerCase()} folios found
         </div>
       ) : (
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Folio</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Trust Name</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Type</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Folio</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Trust Name</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Type</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Status</th>
                 {filterStatus === 'REPORTED' && (
-                  <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Report Reason</th>
+                  <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Report Reason</th>
                 )}
-                <th className="px-4 py-2.5 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                <th className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {folios.map((f: Folio) => (
-                <tr key={f.id} className="hover:bg-gray-50/50">
+                <tr key={f.id} className="hover:bg-slate-50/50">
                   <td className="px-4 py-2.5">
                     <button
                       onClick={() => navigate(`/folio/admin/${f.id}`)}
-                      className="font-medium text-maroon-700 hover:underline"
+                      className="font-medium text-blue-700 hover:underline"
                     >
                       {f.volumeNumber ? `${f.volumeNumber}/${f.folioNumber || '-'}` : f.folioNumber || `#${f.id}`}
                     </button>
                   </td>
-                  <td className="px-4 py-2.5 text-gray-900">{f.trustName || '-'}</td>
-                  <td className="px-4 py-2.5 text-gray-600">{f.trustType}</td>
+                  <td className="px-4 py-2.5 text-slate-900">{f.trustName || '-'}</td>
+                  <td className="px-4 py-2.5 text-slate-600">{f.trustType}</td>
                   <td className="px-4 py-2.5"><StatusBadge status={f.approvalStatus} /></td>
                   {filterStatus === 'REPORTED' && (
-                    <td className="px-4 py-2.5 text-gray-600 max-w-xs truncate">{f.reportReason || '-'}</td>
+                    <td className="px-4 py-2.5 text-slate-600 max-w-xs truncate">{f.reportReason || '-'}</td>
                   )}
                   <td className="px-4 py-2.5 text-right">
                     <div className="flex items-center justify-end gap-1.5">
@@ -143,7 +143,7 @@ This is an automated notification from the Trust Registration System.`,
                       )}
                       <button
                         onClick={() => navigate(`/folio/admin/${f.id}`)}
-                        className="px-2.5 py-1 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors"
+                        className="px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors"
                       >
                         View
                       </button>
@@ -158,41 +158,41 @@ This is an automated notification from the Trust Registration System.`,
 
       {/* Email Dialog */}
       {emailDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setEmailDialog(null)}>
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onClick={() => setEmailDialog(null)}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-900">Send Email to Notary</h3>
-              <span className="text-xs text-gray-400">Folio: {emailDialog.folioNumber}</span>
+              <h3 className="text-sm font-semibold text-slate-900">Send Email to Notary</h3>
+              <span className="text-xs text-slate-400">Folio: {emailDialog.folioNumber}</span>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">To (Notary Email)</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">To (Notary Email)</label>
                 <input
                   type="email"
                   value={emailForm.to}
                   onChange={(e) => setEmailForm({ ...emailForm, to: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none"
                   placeholder="notary@example.com"
                   required
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Subject</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Subject</label>
                 <input
                   type="text"
                   value={emailForm.subject}
                   onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Message</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Message</label>
                 <textarea
                   value={emailForm.body}
                   onChange={(e) => setEmailForm({ ...emailForm, body: e.target.value })}
                   rows={10}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-y font-mono"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-y font-mono"
                 />
               </div>
             </div>
@@ -203,13 +203,13 @@ This is an automated notification from the Trust Registration System.`,
                   sendEmailMutation.mutate({ folioId: emailDialog.folioId, data: emailForm });
                 }}
                 disabled={sendEmailMutation.isPending || !emailForm.to.trim()}
-                className="px-4 py-2 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                className="px-4 py-2 bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {sendEmailMutation.isPending ? 'Sending...' : 'Send Email'}
               </button>
               <button
                 onClick={() => setEmailDialog(null)}
-                className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Cancel
               </button>

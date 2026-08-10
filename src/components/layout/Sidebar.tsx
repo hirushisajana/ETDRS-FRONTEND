@@ -77,15 +77,19 @@ export function Sidebar() {
     .filter((s) => s.items.length > 0);
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 z-30 w-60 bg-[#800020] text-white flex flex-col">
-      <div className="flex items-center gap-3 px-4 h-14 shrink-0 border-b border-white/15">
-        <img src="/national.jpg?v=2" alt="National" className="h-12 w-auto" />
-        <span className="text-base font-semibold tracking-wide">e-Trust</span>
+    <aside className="fixed left-0 top-0 bottom-0 z-30 flex w-60 flex-col bg-slate-950 text-white">
+      <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 h-14">
+        <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-black tracking-tight text-white shadow-lg shadow-blue-500/30">
+          eT
+        </span>
+        <span className="text-base font-bold tracking-tight">
+          e-Trust<span className="text-blue-400">.</span>
+        </span>
       </div>
-      <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-5">
+      <nav className="flex-1 space-y-5 overflow-y-auto px-2 py-4">
         {sections.map((section) => (
           <div key={section.title}>
-            <p className="px-2 mb-1.5 text-[10px] font-semibold text-white/30 uppercase tracking-[0.1em]">
+            <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-500">
               {section.title}
             </p>
             <div className="space-y-0.5">
@@ -98,13 +102,13 @@ export function Sidebar() {
                   <button
                     key={item.path + item.label}
                     onClick={() => navigate(item.tab ? `${item.path}?tab=${item.tab}` : item.path)}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150 ${
+                    className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 transition-all duration-150 ${
                       isActive
-                        ? 'bg-white/20 text-white font-medium'
-                        : 'text-white/50 hover:text-white/80 hover:bg-white/10'
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-500 font-medium text-white shadow-lg shadow-blue-600/30'
+                        : 'text-slate-400 hover:bg-white/5 hover:text-white'
                     }`}
                   >
-                    <svg className="w-4.5 h-4.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.icon} />
                     </svg>
                     <span className="text-xs">{item.label}</span>
@@ -116,15 +120,15 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="px-2 pb-4 pt-3 border-t border-white/15">
+      <div className="border-t border-white/10 px-2 pb-4 pt-3">
         <button
           onClick={() => { logout(); navigate('/'); }}
-          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150 text-white/30 hover:text-white/60 hover:bg-white/10"
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-xs text-slate-400 transition-all duration-150 hover:bg-white/5 hover:text-white"
         >
-          <svg className="w-4.5 h-4.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
           </svg>
-          <span className="text-xs">Sign out</span>
+          Sign out
         </button>
       </div>
     </aside>

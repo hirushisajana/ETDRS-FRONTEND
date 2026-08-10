@@ -9,13 +9,14 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, description, actions, children }: PageHeaderProps) {
   return (
-    <div className="page-header">
+    <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
       <div>
-        <h1 className="page-title">{title}</h1>
-        {description && <p className="page-description">{description}</p>}
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">{title}</h1>
+        {description && <p className="mt-1 text-sm text-slate-500">{description}</p>}
       </div>
-      {actions && <div className="page-actions">{actions}</div>}
-      {children}
+      {(actions || children) && (
+        <div className="flex flex-wrap items-center gap-2">{actions}{children}</div>
+      )}
     </div>
   );
 }
@@ -28,9 +29,13 @@ interface CardProps {
 
 export function Card({ title, children, className = '' }: CardProps) {
   return (
-    <div className={`card ${className}`}>
-      {title && <div className="card-header"><h3>{title}</h3></div>}
-      <div className="card-body">{children}</div>
+    <div className={`rounded-3xl border border-slate-200 bg-white shadow-sm ${className}`}>
+      {title && (
+        <div className="border-b border-slate-100 px-6 py-4">
+          <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+        </div>
+      )}
+      <div className="p-6">{children}</div>
     </div>
   );
 }
@@ -40,29 +45,33 @@ interface StatusBadgeProps {
 }
 
 const statusColors: Record<string, string> = {
-  ACTIVE: 'badge-success',
-  PENDING: 'badge-warning',
-  SUSPENDED: 'badge-danger',
-  INACTIVE: 'badge-secondary',
-  REJECTED: 'badge-danger',
-  REGISTERED: 'badge-success',
-  EXPIRED: 'badge-secondary',
-  SUBMITTED: 'badge-info',
-  ACKNOWLEDGED: 'badge-primary',
-  DRAFT: 'badge-secondary',
-  DAYBOOK_ENTERED: 'badge-info',
-  FOLIO_CREATED: 'badge-info',
-  FOLIO_SUBMITTED: 'badge-info',
-  SCAN_UPLOADED: 'badge-info',
-  PENDING_CORRECTION: 'badge-warning',
-  SUPERSEDED: 'badge-secondary',
-  SUSPICIOUS_FLAGGED: 'badge-danger',
-  REPORTED: 'badge-danger',
+  ACTIVE: 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20',
+  PENDING: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20',
+  SUSPENDED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+  INACTIVE: 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/20',
+  REJECTED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+  REGISTERED: 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20',
+  EXPIRED: 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/20',
+  SUBMITTED: 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20',
+  ACKNOWLEDGED: 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20',
+  DRAFT: 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/20',
+  DAYBOOK_ENTERED: 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20',
+  FOLIO_CREATED: 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20',
+  FOLIO_SUBMITTED: 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20',
+  SCAN_UPLOADED: 'bg-sky-50 text-sky-700 ring-1 ring-inset ring-sky-600/20',
+  PENDING_CORRECTION: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20',
+  SUPERSEDED: 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/20',
+  SUSPICIOUS_FLAGGED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+  REPORTED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const colorClass = statusColors[status] || 'badge-secondary';
-  return <span className={`badge ${colorClass}`}>{status}</span>;
+  const colorClass = statusColors[status] || 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/20';
+  return (
+    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${colorClass}`}>
+      {status}
+    </span>
+  );
 }
 
 interface LoadingSpinnerProps {
@@ -70,18 +79,21 @@ interface LoadingSpinnerProps {
 }
 
 export function LoadingSpinner({ size = 'md' }: LoadingSpinnerProps) {
-  return <div className={`spinner spinner-${size}`} />;
+  const sizeClass =
+    size === 'sm' ? 'h-4 w-4 border-2' : size === 'lg' ? 'h-12 w-12 border-4' : 'h-8 w-8 border-4';
+  return (
+    <div className={`mx-auto my-10 ${sizeClass} animate-spin rounded-full border-slate-200 border-t-blue-600`} />
+  );
 }
 
 interface EmptyStateProps {
   message: string;
-  icon?: string;
 }
 
 export function EmptyState({ message }: EmptyStateProps) {
   return (
-    <div className="empty-state">
-      <p>{message}</p>
+    <div className="py-12 text-center">
+      <p className="text-sm text-slate-500">{message}</p>
     </div>
   );
 }
@@ -97,6 +109,12 @@ interface ConfirmDialogProps {
   variant?: 'danger' | 'warning' | 'info';
 }
 
+const confirmColors: Record<string, string> = {
+  danger: 'bg-rose-600 hover:bg-rose-500',
+  warning: 'bg-amber-600 hover:bg-amber-500',
+  info: 'bg-blue-600 hover:bg-blue-500',
+};
+
 export function ConfirmDialog({
   open,
   title,
@@ -110,19 +128,21 @@ export function ConfirmDialog({
   if (!open) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <div className="modal-header">
-          <h3>{title}</h3>
-        </div>
-        <div className="modal-body">
-          <p>{message}</p>
-        </div>
-        <div className="modal-footer">
-          <button className="btn btn-secondary" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl">
+        <h3 className="text-lg font-bold tracking-tight text-slate-900">{title}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-slate-500">{message}</p>
+        <div className="mt-6 flex items-center justify-end gap-3">
+          <button
+            onClick={onCancel}
+            className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50"
+          >
             {cancelLabel}
           </button>
-          <button className={`btn btn-${variant}`} onClick={onConfirm}>
+          <button
+            onClick={onConfirm}
+            className={`rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all active:scale-[0.98] ${confirmColors[variant]}`}
+          >
             {confirmLabel}
           </button>
         </div>

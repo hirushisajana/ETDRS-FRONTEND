@@ -119,17 +119,17 @@ This is an automated notification from the Trust Registration System.`,
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/folio/admin')}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-slate-400 hover:text-slate-600 transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <div>
-            <h1 className="text-lg font-bold text-gray-900">
+            <h1 className="text-lg font-bold text-slate-900">
               Folio {folio.volumeNumber ? `${folio.volumeNumber}/${folio.folioNumber || '-'}` : folio.folioNumber || `#${folio.id}`}
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-slate-500">
               {folio.trustName || 'Untitled'} &middot; {folio.trustType}
             </p>
           </div>
@@ -138,7 +138,7 @@ This is an automated notification from the Trust Registration System.`,
           {folio.hasScan && (
             <button
               onClick={() => navigate(`/deed-viewer/${folio.id}`)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-maroon-700 bg-maroon-50 border border-maroon-200 rounded-lg hover:bg-maroon-100 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -175,7 +175,7 @@ This is an automated notification from the Trust Registration System.`,
       )}
 
       {/* Tab bar */}
-      <div className="border-b border-gray-200 mb-4">
+      <div className="border-b border-slate-200 mb-4">
         <div className="flex gap-6">
           {(Object.keys(tabLabels) as Tab[]).map((t) => (
             <button
@@ -183,8 +183,8 @@ This is an automated notification from the Trust Registration System.`,
               onClick={() => setTab(t)}
               className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
                 tab === t
-                  ? 'text-maroon-700 border-maroon-700'
-                  : 'text-gray-500 border-transparent hover:text-gray-700'
+                  ? 'text-blue-700 border-blue-700'
+                  : 'text-slate-500 border-transparent hover:text-slate-700'
               }`}
             >
               {tabLabels[t]}
@@ -195,7 +195,7 @@ This is an automated notification from the Trust Registration System.`,
 
       {/* General tab */}
       {tab === 'general' && (
-        <div className="bg-white border border-gray-200 rounded-lg p-5">
+        <div className="bg-white border border-slate-200 rounded-lg p-5">
           <div className="grid grid-cols-3 gap-x-8 gap-y-3">
             {generalFields.map((field) => {
               const val = renderField(field.key);
@@ -203,8 +203,8 @@ This is an automated notification from the Trust Registration System.`,
               if (field.key === 'reportReason' && val === '-') return null;
               return (
                 <div key={field.key}>
-                  <span className="text-xs text-gray-400 uppercase tracking-wider">{field.label}</span>
-                  <p className="text-sm text-gray-900 mt-0.5">{val}</p>
+                  <span className="text-xs text-slate-400 uppercase tracking-wider">{field.label}</span>
+                  <p className="text-sm text-slate-900 mt-0.5">{val}</p>
                 </div>
               );
             })}
@@ -214,27 +214,27 @@ This is an automated notification from the Trust Registration System.`,
 
       {/* Parties tab */}
       {tab === 'parties' && (
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Role</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Type</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Full Name</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">ID Number</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Verification</th>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Role</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Type</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Full Name</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">ID Number</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Verification</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {!parties?.length ? (
-                <tr><td colSpan={5} className="px-4 py-8 text-center text-sm text-gray-400">No parties</td></tr>
+                <tr><td colSpan={5} className="px-4 py-8 text-center text-sm text-slate-400">No parties</td></tr>
               ) : (
                 parties.map((p: Party) => (
                   <tr key={p.id}>
-                    <td className="px-4 py-2.5 text-gray-900">{p.partyRole}</td>
-                    <td className="px-4 py-2.5 text-gray-600">{p.partyType}</td>
-                    <td className="px-4 py-2.5 text-gray-900 font-medium">{p.fullName || '-'}</td>
-                    <td className="px-4 py-2.5 text-gray-600">{p.idNumber || '-'}</td>
+                    <td className="px-4 py-2.5 text-slate-900">{p.partyRole}</td>
+                    <td className="px-4 py-2.5 text-slate-600">{p.partyType}</td>
+                    <td className="px-4 py-2.5 text-slate-900 font-medium">{p.fullName || '-'}</td>
+                    <td className="px-4 py-2.5 text-slate-600">{p.idNumber || '-'}</td>
                     <td className="px-4 py-2.5"><StatusBadge status={p.verificationStatus} /></td>
                   </tr>
                 ))
@@ -246,28 +246,28 @@ This is an automated notification from the Trust Registration System.`,
 
       {/* Properties tab */}
       {tab === 'properties' && (
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Type</th>
-                <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-500 uppercase">Details</th>
-                <th className="px-4 py-2.5 text-right text-xs font-semibold text-gray-500 uppercase">Amount (LKR)</th>
-                <th className="px-4 py-2.5 text-right text-xs font-semibold text-gray-500 uppercase">Value (LKR)</th>
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Type</th>
+                <th className="px-4 py-2.5 text-left text-xs font-semibold text-slate-500 uppercase">Details</th>
+                <th className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase">Amount (LKR)</th>
+                <th className="px-4 py-2.5 text-right text-xs font-semibold text-slate-500 uppercase">Value (LKR)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100">
               {!properties?.length ? (
-                <tr><td colSpan={4} className="px-4 py-8 text-center text-sm text-gray-400">No properties</td></tr>
+                <tr><td colSpan={4} className="px-4 py-8 text-center text-sm text-slate-400">No properties</td></tr>
               ) : (
                 properties.map((p: Property) => (
                   <tr key={p.id}>
-                    <td className="px-4 py-2.5 text-gray-900">{p.propertyType}</td>
-                    <td className="px-4 py-2.5 text-gray-600">{p.otherDescription || p.vehicleDetails || '-'}</td>
-                    <td className="px-4 py-2.5 text-right text-gray-900 font-mono">
+                    <td className="px-4 py-2.5 text-slate-900">{p.propertyType}</td>
+                    <td className="px-4 py-2.5 text-slate-600">{p.otherDescription || p.vehicleDetails || '-'}</td>
+                    <td className="px-4 py-2.5 text-right text-slate-900 font-mono">
                       {p.amount != null ? p.amount.toLocaleString() : '-'}
                     </td>
-                    <td className="px-4 py-2.5 text-right text-gray-900 font-mono">
+                    <td className="px-4 py-2.5 text-right text-slate-900 font-mono">
                       {p.propertyValue != null ? p.propertyValue.toLocaleString() : '-'}
                     </td>
                   </tr>
@@ -282,19 +282,19 @@ This is an automated notification from the Trust Registration System.`,
       {tab === 'emailLogs' && (
         <div className="space-y-3">
           {logsLoading ? (
-            <div className="bg-white border border-gray-200 rounded-lg p-8 text-center text-sm text-gray-400">
+            <div className="bg-white border border-slate-200 rounded-lg p-8 text-center text-sm text-slate-400">
               Loading email logs...
             </div>
           ) : !emailLogs?.length ? (
-            <div className="bg-white border border-gray-200 rounded-lg p-12 text-center text-sm text-gray-400">
+            <div className="bg-white border border-slate-200 rounded-lg p-12 text-center text-sm text-slate-400">
               No emails have been sent for this folio
             </div>
           ) : (
             emailLogs.map((log: any) => (
-              <div key={log.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div key={log.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setExpandedEmailId(expandedEmailId === log.id ? null : log.id)}
-                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50/50 transition-colors text-left"
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-50/50 transition-colors text-left"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -303,41 +303,41 @@ This is an automated notification from the Trust Registration System.`,
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-900 truncate">{log.subject}</span>
+                      <span className="text-sm font-medium text-slate-900 truncate">{log.subject}</span>
                       <span className={`shrink-0 inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-medium ${
                         log.status === 'SENT' ? 'bg-green-50 text-green-700' :
                         log.status === 'FAILED' ? 'bg-red-50 text-red-700' :
-                        'bg-gray-100 text-gray-600'
+                        'bg-slate-100 text-slate-600'
                       }`}>
                         {log.status}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-xs text-gray-500">To: {log.recipient}</span>
-                      <span className="text-xs text-gray-300">&middot;</span>
-                      <span className="text-xs text-gray-500">{log.sentAt ? new Date(log.sentAt).toLocaleString() : '-'}</span>
-                      <span className="text-xs text-gray-300">&middot;</span>
-                      <span className="text-xs text-gray-500">{log.emailType}</span>
+                      <span className="text-xs text-slate-500">To: {log.recipient}</span>
+                      <span className="text-xs text-slate-300">&middot;</span>
+                      <span className="text-xs text-slate-500">{log.sentAt ? new Date(log.sentAt).toLocaleString() : '-'}</span>
+                      <span className="text-xs text-slate-300">&middot;</span>
+                      <span className="text-xs text-slate-500">{log.emailType}</span>
                     </div>
                   </div>
-                  <svg className={`w-4 h-4 text-gray-400 transition-transform ${expandedEmailId === log.id ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className={`w-4 h-4 text-slate-400 transition-transform ${expandedEmailId === log.id ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                   </svg>
                 </button>
                 {expandedEmailId === log.id && (
-                  <div className="border-t border-gray-100 px-4 py-3 bg-gray-50/50">
+                  <div className="border-t border-slate-100 px-4 py-3 bg-slate-50/50">
                     <div className="mb-3">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">To:</span>
-                      <p className="text-sm text-gray-900 mt-0.5">{log.recipient}</p>
+                      <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">To:</span>
+                      <p className="text-sm text-slate-900 mt-0.5">{log.recipient}</p>
                     </div>
                     <div className="mb-3">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Subject:</span>
-                      <p className="text-sm text-gray-900 mt-0.5">{log.subject}</p>
+                      <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Subject:</span>
+                      <p className="text-sm text-slate-900 mt-0.5">{log.subject}</p>
                     </div>
                     <div>
-                      <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">Message:</span>
+                      <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Message:</span>
                       <div
-                        className="mt-1 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg p-3 whitespace-pre-wrap"
+                        className="mt-1 text-sm text-slate-900 bg-white border border-slate-200 rounded-lg p-3 whitespace-pre-wrap"
                         dangerouslySetInnerHTML={{ __html: (log.body || '').replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '') }}
                       />
                     </div>
@@ -356,41 +356,41 @@ This is an automated notification from the Trust Registration System.`,
 
       {/* Email Dialog */}
       {emailDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setEmailDialog(false)}>
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onClick={() => setEmailDialog(false)}>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-900">Send Email to Notary</h3>
-              <span className="text-xs text-gray-400">Folio: {folio?.volumeNumber ? `${folio.volumeNumber}/${folio.folioNumber || ''}` : folio?.folioNumber || `#${folio?.id}`}</span>
+              <h3 className="text-sm font-semibold text-slate-900">Send Email to Notary</h3>
+              <span className="text-xs text-slate-400">Folio: {folio?.volumeNumber ? `${folio.volumeNumber}/${folio.folioNumber || ''}` : folio?.folioNumber || `#${folio?.id}`}</span>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">To (Notary Email)</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">To (Notary Email)</label>
                 <input
                   type="email"
                   value={emailForm.to}
                   onChange={(e) => setEmailForm({ ...emailForm, to: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none"
                   placeholder="notary@example.com"
                   required
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Subject</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Subject</label>
                 <input
                   type="text"
                   value={emailForm.subject}
                   onChange={(e) => setEmailForm({ ...emailForm, subject: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Message</label>
+                <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Message</label>
                 <textarea
                   value={emailForm.body}
                   onChange={(e) => setEmailForm({ ...emailForm, body: e.target.value })}
                   rows={10}
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none resize-y font-mono"
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 outline-none resize-y font-mono"
                 />
               </div>
             </div>
@@ -399,13 +399,13 @@ This is an automated notification from the Trust Registration System.`,
               <button
                 onClick={() => sendEmailMutation.mutate(emailForm)}
                 disabled={sendEmailMutation.isPending || !emailForm.to.trim()}
-                className="px-4 py-2 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                className="px-4 py-2 bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {sendEmailMutation.isPending ? 'Sending...' : 'Send Email'}
               </button>
               <button
                 onClick={() => setEmailDialog(false)}
-                className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Cancel
               </button>

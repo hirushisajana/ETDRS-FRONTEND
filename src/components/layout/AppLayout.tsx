@@ -10,8 +10,8 @@ interface AppLayoutProps {
 
 function LoadingFallback() {
   return (
-    <div className="flex items-center justify-center h-64">
-      <div className="w-8 h-8 border-2 border-gray-200 border-t-maroon-700 rounded-full animate-spin" />
+    <div className="flex h-64 items-center justify-center">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-slate-200 border-t-blue-600" />
     </div>
   );
 }
@@ -20,7 +20,7 @@ function LayoutInner({ children }: AppLayoutProps) {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {isAuthenticated && <Navbar />}
       <div className="flex pt-14">
         {isAuthenticated && <Sidebar />}
