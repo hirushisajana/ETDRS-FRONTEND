@@ -63,6 +63,12 @@ const statusColors: Record<string, string> = {
   SUPERSEDED: 'bg-slate-100 text-slate-600 ring-1 ring-inset ring-slate-500/20',
   SUSPICIOUS_FLAGGED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
   REPORTED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+  PENDING_REGISTRAR_VERIFICATION: 'bg-amber-50 text-amber-800 ring-1 ring-inset ring-amber-600/30',
+  REPORTED_PENDING_VERIFICATION: 'bg-orange-50 text-orange-800 ring-1 ring-inset ring-orange-600/30',
+  REJECTED_PENDING_VERIFICATION: 'bg-red-50 text-red-800 ring-1 ring-inset ring-red-600/30',
+  READY_FOR_HANDOVER: 'bg-violet-50 text-violet-800 ring-1 ring-inset ring-violet-600/30',
+  HANDED_OVER: 'bg-teal-50 text-teal-800 ring-1 ring-inset ring-teal-600/30',
+  SUSPICIOUS: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {

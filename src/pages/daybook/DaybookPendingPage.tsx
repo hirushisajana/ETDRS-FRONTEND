@@ -400,6 +400,7 @@ export default function DaybookPendingPage() {
                   className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-maroon-500/20 focus:border-maroon-500 outline-none transition-all"
                   placeholder="0.00"
                   min="0"
+                  max="9999999999999.99"
                   step="0.01"
                 />
               </div>

@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { folioApi, notaryApi, scanApi } from '../../api';
+import { folioApi, notaryApi, scanApi, certificateApi } from '../../api';
 import { LoadingSpinner } from '../../components/shared';
-import type { Party, PartyRequest, Property, PropertyRequest, NotaryResponse } from '../../types';
+import type { Party, PartyRequest, Property, PropertyRequest, NotaryResponse, Folio } from '../../types';
 
 type FormSection = 'basic' | 'parties' | 'beneficiaries' | 'properties' | 'review';
 
@@ -55,6 +55,9 @@ export default function FolioFormPage() {
   const [section, setSection] = useState<FormSection>('basic');
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [registeredAfterCorrection, setRegisteredAfterCorrection] = useState<Folio | null>(null);
+  const [certIssuing, setCertIssuing] = useState(false);
+  const [certError, setCertError] = useState('');
 
   // Basic fields
   const [trustCategory, setTrustCategory] = useState('LOCAL');
@@ -220,16 +223,33 @@ export default function FolioFormPage() {
 
   const registerCorrectionMutation = useMutation({
     mutationFn: () => folioApi.registerAfterCorrection(folioId),
-    onSuccess: () => {
+    onSuccess: (registered) => {
       queryClient.invalidateQueries({ queryKey: ['folio'] });
       setSuccessMsg('Folio registered after correction');
-      setTimeout(() => navigate('/folio/records'), 1500);
+      setRegisteredAfterCorrection(registered);
+      setCertError('');
     },
     onError: (err: unknown) => {
       const e = err as { message?: string };
       setError(e?.message || 'Failed to register folio');
     },
   });
+
+  const handleGenerateCertificate = async (folioId: number) => {
+    setCertIssuing(true);
+    setCertError('');
+    try {
+      await certificateApi.issue(folioId);
+      setCertIssuing(false);
+      setRegisteredAfterCorrection(null);
+      setSuccessMsg('Registration certificate generated successfully');
+      queryClient.invalidateQueries({ queryKey: ['folio'] });
+    } catch (err: unknown) {
+      const e = err as { message?: string };
+      setCertError(e?.message || 'Failed to generate certificate');
+      setCertIssuing(false);
+    }
+  };
 
   async function handleAddParty(e: React.FormEvent) {
     e.preventDefault();
@@ -571,6 +591,26 @@ export default function FolioFormPage() {
       )}
       {successMsg && (
         <div className="mb-4 px-4 py-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">{successMsg}</div>
+      )}
+      {registeredAfterCorrection && (
+        <div className="mb-4 p-5 bg-green-50 border border-green-200 rounded-2xl">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div>
+              <h3 className="text-green-800 font-semibold">Folio registered successfully</h3>
+              <p className="text-sm text-green-700 mt-0.5">
+                The folio is ready for handover. Generate the registration certificate to finalize it.
+              </p>
+              {certError && <p className="text-sm text-red-600 mt-1">{certError}</p>}
+            </div>
+            <button
+              onClick={() => handleGenerateCertificate(folio.id)}
+              disabled={certIssuing}
+              className="px-5 py-2.5 bg-green-700 hover:bg-green-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+            >
+              {certIssuing ? 'Generating...' : 'Generate Registration Certificate'}
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Section tabs */}
@@ -1110,21 +1150,21 @@ export default function FolioFormPage() {
               disabled={loading || !!isBlocked || !deedFileName}
               className="px-6 py-2.5 bg-green-700 hover:bg-green-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
-              Submit — register deed
+              Submit — register deed (pending verification)
             </button>
             <button
               onClick={() => { setError(''); setConfirmAction('report'); }}
               disabled={loading}
               className="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
-              Report deed
+              Report deed (pending verification)
             </button>
             <button
               onClick={() => { setError(''); setConfirmAction('reject'); }}
               disabled={loading}
               className="px-6 py-2.5 bg-red-700 hover:bg-red-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
-              Reject deed
+              Reject deed (pending verification)
             </button>
             <div className="ml-auto">
               <button
@@ -1251,13 +1291,13 @@ export default function FolioFormPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" onClick={() => { setConfirmAction(null); setActionReason(''); }}>
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-sm font-semibold text-slate-900 mb-2">
-              {confirmAction === 'submit' ? 'Submit Folio' :
-               confirmAction === 'report' ? 'Report Folio' : 'Reject Folio'}
+              {confirmAction === 'submit' ? 'Submit Folio for Registrar Verification' :
+               confirmAction === 'report' ? 'Submit Report Proposal' : 'Submit Rejection Proposal'}
             </h3>
             <p className="text-sm text-slate-600 mb-4">
-              {confirmAction === 'submit' ? 'Are you sure you want to submit this folio for registration? The deed scan will be included.' :
-               confirmAction === 'report' ? 'This will mark the folio as REPORTED and notify the notary. Enter reason below:' :
-               'This will reject the folio permanently. A red seal will be applied. Enter reason below:'}
+              {confirmAction === 'submit' ? 'This submits a registration proposal. The Registrar will verify and finalize registration.' :
+               confirmAction === 'report' ? 'This will propose REPORTED status for Registrar verification and notify the notary. Enter reason below:' :
+               'This will propose a permanent REJECTION for Registrar verification. Enter reason below:'}
             </p>
             {(confirmAction === 'report' || confirmAction === 'reject') && (
               <textarea

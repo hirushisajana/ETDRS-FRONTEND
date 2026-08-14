@@ -79,9 +79,11 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
     }
   };
 
-  const rejectedEntries = entries.filter(
-    (e) => e.status === 'REJECTED' || e.status === 'PENDING_CORRECTION'
+  const pendingCorrectionEntries = entries.filter(
+    (e) => e.status === 'PENDING_CORRECTION'
   );
+
+  const rejectedEntries = entries.filter((e) => e.status === 'REJECTED');
 
   const recentEntries = [...entries].reverse().slice(0, 10);
 
@@ -140,7 +142,7 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
       </div>
 
       {/* Re-submission Alerts */}
-      {rejectedEntries.length > 0 && (
+      {pendingCorrectionEntries.length > 0 && (
         <div className="rounded-xl border border-red-200 bg-gradient-to-r from-red-50 to-orange-50 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 bg-red-100/50 border-b border-red-200">
             <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center shrink-0">
@@ -150,15 +152,15 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
             </div>
             <div>
               <p className="text-sm font-semibold text-red-800">
-                {rejectedEntries.length} Re-submission{rejectedEntries.length > 1 ? 's' : ''} Required
+                {pendingCorrectionEntries.length} Re-submission{pendingCorrectionEntries.length > 1 ? 's' : ''} Required
               </p>
               <p className="text-xs text-red-600">
-                {rejectedEntries.length === 1 ? 'This entry' : 'These entries'} require re-submission to proceed
+                {pendingCorrectionEntries.length === 1 ? 'This entry' : 'These entries'} require re-submission to proceed
               </p>
             </div>
           </div>
           <div className="divide-y divide-red-100">
-            {rejectedEntries.map((e) => (
+            {pendingCorrectionEntries.map((e) => (
               <div key={e.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50/50 transition-colors">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
                 <div className="flex-1 min-w-0">
@@ -172,6 +174,44 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
                 >
                   Re-submit
                 </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Rejected Deeds (read-only, no resubmission) */}
+      {rejectedEntries.length > 0 && (
+        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+          <div className="flex items-center gap-2.5 px-4 py-3 bg-gray-50 border-b border-gray-100">
+            <div className="w-7 h-7 rounded-md bg-red-100 flex items-center justify-center">
+              <svg className="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-800">Rejected Deeds</h3>
+              <p className="text-[11px] text-gray-400">
+                Rejected deeds are permanent and displayed for record purposes only
+              </p>
+            </div>
+          </div>
+          <div className="divide-y divide-gray-50">
+            {rejectedEntries.map((e) => (
+              <div key={e.id} className="flex items-start gap-3 px-4 py-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-mono text-gray-800">{e.daybookNumber}</span>
+                    <span className="text-sm text-gray-500">— {e.clientName ?? 'N/A'}</span>
+                    <StatusBadge status={e.status} />
+                  </div>
+                  {e.folioRejectionReason && (
+                    <p className="text-xs text-red-600 mt-1">
+                      Rejection reason: {e.folioRejectionReason}
+                    </p>
+                  )}
+                </div>
+                <span className="text-[11px] text-gray-400 shrink-0 mt-0.5">Closed</span>
               </div>
             ))}
           </div>
@@ -214,13 +254,15 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {recentEntries.map((entry, idx) => (
+                  {recentEntries.map((entry, idx) => {
+                    const isRejected = entry.status === 'REJECTED';
+                    return (
                     <tr
                       key={entry.id}
-                      onClick={() => onViewEntry(entry)}
-                      className={`cursor-pointer transition-colors hover:bg-gray-50 ${
-                        idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'
-                      }`}
+                      onClick={() => { if (!isRejected) onViewEntry(entry); }}
+                      className={`transition-colors hover:bg-gray-50 ${
+                        isRejected ? 'cursor-default' : 'cursor-pointer'
+                      } ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}
                     >
                       <td className="px-4 py-3 font-mono text-xs text-gray-800">{entry.daybookNumber}</td>
                       <td className="px-4 py-3 text-gray-700">{entry.clientName ?? '-'}</td>
@@ -269,7 +311,8 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
                         )}
                       </td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

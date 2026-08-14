@@ -35,6 +35,7 @@ const UserFormPage = lazy(() => import('../pages/users/UserFormPage'));
 
 // Daybook / Counter
 const CounterPage = lazy(() => import('../pages/counter/CounterPage'));
+const CounterHandoverPage = lazy(() => import('../pages/counter/CounterHandoverPage'));
 
 // Daybook Pending
 const DaybookPendingPage = lazy(() => import('../pages/daybook/DaybookPendingPage'));
@@ -231,6 +232,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute roles={['COUNTER_USER', 'REGISTRY_ADMIN'] as UserRole[]}>
         <AppLayout><CounterPage /></AppLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/daybook/handover',
+    element: (
+      <ProtectedRoute roles={['COUNTER_USER', 'REGISTRY_ADMIN'] as UserRole[]}>
+        <AppLayout><CounterHandoverPage /></AppLayout>
       </ProtectedRoute>
     ),
   },

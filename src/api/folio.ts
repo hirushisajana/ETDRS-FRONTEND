@@ -91,6 +91,24 @@ export const folioApi = {
   getReported: () =>
     apiClient.get<Folio[]>('/folio/reported').then((r) => r.data),
 
+  getPendingVerification: () =>
+    apiClient.get<Folio[]>('/folio/pending-verification').then((r) => r.data),
+
+  markReadyForHandover: (id: number) =>
+    apiClient.post<Folio>(`/folio/${id}/ready-for-handover`).then((r) => r.data),
+
+  getReadyForHandover: () =>
+    apiClient.get<Folio[]>('/daybook/handover/ready').then((r) => r.data),
+
+  completeHandover: (id: number, data: {
+    handedOverBy?: string;
+    collectorIdType?: string;
+    collectorIdNumber: string;
+    deliveryMethod?: string;
+    handoverRemarks?: string;
+  }) =>
+    apiClient.post<Folio>(`/daybook/handover/${id}`, data).then((r) => r.data),
+
   getByStatus: (status: string) =>
     apiClient.get<Folio[]>('/folio/by-status', { params: { status } }).then((r) => r.data),
 

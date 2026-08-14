@@ -42,6 +42,7 @@ export interface DaybookEntry {
   acceptorDate: string | null;
   registrarInitials: string | null;
   remarks: string | null;
+  folioRejectionReason: string | null;
   status: DaybookEntryStatus;
   emailSent: boolean | null;
   suspiciousFlag: boolean;

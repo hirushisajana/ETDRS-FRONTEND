@@ -33,6 +33,7 @@ export function canAccess(role: UserRole, path: string): boolean {
     '/users': ['IT_ADMIN'],
     '/notaries': ['IT_ADMIN', 'SUPER_ADMIN'],
     '/daybook/counter': ['COUNTER_USER', 'REGISTRY_ADMIN'],
+    '/daybook/handover': ['COUNTER_USER', 'REGISTRY_ADMIN'],
     '/daybook/pending': ['DAYBOOK_USER', 'REGISTRY_ADMIN'],
     '/folio': ['FOLIO_USER', 'REGISTRY_ADMIN'],
     '/approval': ['IT_ADMIN', 'SUPER_ADMIN', 'REGISTRY_ADMIN'],
