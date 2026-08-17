@@ -57,6 +57,9 @@ const ReportedDeedsPage = lazy(() => import('../pages/folio/ReportedDeedsPage'))
 // Approval
 const ApprovalPage = lazy(() => import('../pages/approval/ApprovalPage'));
 
+// Signature
+const SignatureSetupPage = lazy(() => import('../pages/signature/SignatureSetupPage'));
+
 // Scan
 const ScanPage = lazy(() => import('../pages/scan/ScanPage'));
 
@@ -344,6 +347,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute roles={['IT_ADMIN', 'SUPER_ADMIN', 'REGISTRY_ADMIN'] as UserRole[]}>
         <AppLayout><ApprovalPage /></AppLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/signature',
+    element: (
+      <ProtectedRoute roles={['REGISTRY_ADMIN'] as UserRole[]}>
+        <AppLayout><SignatureSetupPage /></AppLayout>
       </ProtectedRoute>
     ),
   },

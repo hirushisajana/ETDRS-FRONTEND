@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { approvalApi, scanApi, certificateApi, folioApi } from '../../api';
+import { approvalApi, scanApi, certificateApi, signatureApi } from '../../api';
 import { LoadingSpinner, EmptyState, StatusBadge } from '../../components/shared';
 import { useAuth } from '../../contexts';
 import { formatDateTime } from '../../lib/format';
@@ -23,10 +23,6 @@ export default function ApprovalPage() {
   const [concerns, setConcerns] = useState('');
   const [checks, setChecks] = useState({ name: false, parties: false, properties: false, notary: false });
   const [submitting, setSubmitting] = useState(false);
-  const [justRegistered, setJustRegistered] = useState<Folio | null>(null);
-  const [certIssuing, setCertIssuing] = useState(false);
-  const [certError, setCertError] = useState('');
-  const [certSuccess, setCertSuccess] = useState('');
 
   const { data: pending, isLoading } = useQuery({
     queryKey: ['approval', 'pending'],
@@ -34,11 +30,12 @@ export default function ApprovalPage() {
     refetchInterval: 30000,
   });
 
-  const { data: registeredFolios, isLoading: regLoading } = useQuery({
-    queryKey: ['approval', 'registered'],
-    queryFn: () => folioApi.getByStatus('READY_FOR_HANDOVER'),
-    enabled: view === 'certificates',
+  const { data: mySignature } = useQuery({
+    queryKey: ['signature', 'my'],
+    queryFn: signatureApi.getMySignature,
+    refetchInterval: 30000,
   });
+  const hasActiveSignature = !!mySignature;
 
   const { data: certificates, isLoading: certLoading } = useQuery({
     queryKey: ['certificates', 'registry'],
@@ -80,10 +77,7 @@ export default function ApprovalPage() {
     setSubmitting(true);
     try {
       if (actionType === 'register') {
-        const registered = await approvalApi.verifyAndRegister(selected.id);
-        setJustRegistered(registered);
-        setCertError('');
-        setCertSuccess('');
+        await approvalApi.verifyAndRegister(selected.id);
       } else if (actionType === 'reject') {
         await approvalApi.verifyRejected(selected.id);
       } else if (actionType === 'report') {
@@ -106,23 +100,6 @@ export default function ApprovalPage() {
     }
   };
 
-  const handleGenerateCertificate = async (folioId: number) => {
-    setCertIssuing(true);
-    setCertError('');
-    setCertSuccess('');
-    try {
-      await certificateApi.issue(folioId);
-      setCertSuccess(`Certificate generated for folio #${folioId}`);
-      setJustRegistered(null);
-      queryClient.invalidateQueries({ queryKey: ['certificates'] });
-      queryClient.invalidateQueries({ queryKey: ['approval'] });
-    } catch (err) {
-      setCertError(err instanceof Error ? err.message : 'Failed to generate certificate');
-    } finally {
-      setCertIssuing(false);
-    }
-  };
-
   const handleDownload = async (cert: RegistrationCertificate) => {
     try {
       const blob = await certificateApi.download(cert.id);
@@ -138,9 +115,6 @@ export default function ApprovalPage() {
   if (!isRegistryAdmin) {
     return <div className="p-6 text-center text-red-600 font-semibold">Access denied. Registry Admin role required.</div>;
   }
-
-  const foliosAwaitingCertificate = (registeredFolios || [])
-    .filter((f) => f.folioType === 'ORIGINAL' && !f.certificateNumber);
 
   return (
     <div className="h-[calc(100vh-3.5rem)] flex flex-col">
@@ -171,32 +145,28 @@ export default function ApprovalPage() {
         </div>
       </div>
 
-      {justRegistered && (
-        <div className="px-6 py-3 border-b border-green-200 bg-green-50">
+      {/* Signature gate banner */}
+      {!hasActiveSignature && (
+        <div className="px-6 py-3 border-b border-amber-200 bg-amber-50">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 text-sm text-green-800">
-              <svg className="w-5 h-5 shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div className="flex items-center gap-3 text-sm text-amber-800">
+              <svg className="w-5 h-5 shrink-0 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
               </svg>
               <div>
-                <p className="font-semibold">Registration confirmed for folio #{justRegistered.folioNumber || justRegistered.id}</p>
-                <p className="text-xs text-green-700 mt-0.5">
-                  {justRegistered.trustName} &middot; {justRegistered.daybookNumber} &middot; {justRegistered.approvalStatus}
+                <p className="font-semibold">No active signature</p>
+                <p className="text-xs text-amber-700 mt-0.5">
+                  You must upload your signature before you can confirm registrations. It is stamped onto signed folios and certificates.
                 </p>
               </div>
             </div>
-            {justRegistered.folioType === 'ORIGINAL' && !justRegistered.certificateNumber && (
-              <button
-                onClick={() => handleGenerateCertificate(justRegistered.id)}
-                disabled={certIssuing}
-                className="px-4 py-2 bg-maroon-800 text-white text-sm font-semibold rounded-md hover:bg-maroon-900 disabled:opacity-50 transition-colors"
-              >
-                {certIssuing ? 'Generating...' : 'Generate Registration Certificate'}
-              </button>
-            )}
+            <a
+              href="/signature"
+              className="shrink-0 px-4 py-2 bg-amber-600 text-white text-sm font-semibold rounded-md hover:bg-amber-700 transition-colors"
+            >
+              Upload Signature
+            </a>
           </div>
-          {certSuccess && <p className="mt-2 text-xs font-medium text-green-700">{certSuccess}</p>}
-          {certError && <p className="mt-2 text-xs font-medium text-red-700">{certError}</p>}
         </div>
       )}
 
@@ -456,9 +426,11 @@ export default function ApprovalPage() {
                         {selected.approvalStatus === 'PENDING_REGISTRAR_VERIFICATION' && (
                           <button
                             onClick={() => setActionType('register')}
-                            className="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-md hover:bg-green-700 transition-colors"
+                            disabled={!hasActiveSignature}
+                            title={hasActiveSignature ? undefined : 'Upload your signature first'}
+                            className="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
-                            ✓ Verify & Register
+                            {hasActiveSignature ? '✓ Verify & Register' : 'Upload signature first'}
                           </button>
                         )}
                         {selected.approvalStatus === 'REPORTED_PENDING_VERIFICATION' && (
@@ -521,39 +493,6 @@ export default function ApprovalPage() {
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Folios awaiting certificate generation */}
-          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            <div className="px-5 py-3 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-sm font-semibold text-gray-800">Registered Folios Awaiting Certificate</h2>
-              <p className="text-xs text-gray-500 mt-0.5">Generate registration certificates for verified ORIGINAL folios</p>
-            </div>
-            {regLoading ? (
-              <LoadingSpinner />
-            ) : !foliosAwaitingCertificate.length ? (
-              <EmptyState message="No registered folios awaiting certificate generation" />
-            ) : (
-              <div className="divide-y divide-gray-100">
-                {foliosAwaitingCertificate.map((folio) => (
-                  <div key={folio.id} className="flex items-center justify-between gap-4 px-5 py-3">
-                    <div className="min-w-0">
-                      <div className="text-sm font-medium text-gray-900 truncate">{folio.trustName || 'Untitled'}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">
-                        Folio #{folio.folioNumber || folio.id} &middot; {folio.daybookNumber} &middot; Registered {formatDateTime(folio.registrationCompletedAt || folio.createdAt)}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleGenerateCertificate(folio.id)}
-                      disabled={certIssuing}
-                      className="shrink-0 px-4 py-2 bg-maroon-800 text-white text-xs font-semibold rounded-md hover:bg-maroon-900 disabled:opacity-50 transition-colors"
-                    >
-                      {certIssuing ? 'Generating...' : 'Generate Certificate'}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Generated certificates */}
           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <div className="px-5 py-3 border-b border-gray-200 bg-gray-50">

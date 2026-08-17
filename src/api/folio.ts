@@ -52,6 +52,9 @@ export const folioApi = {
   getCopyPdf: (id: number) =>
     apiClient.get<Blob>(`/folio/${id}/copy`, { responseType: 'blob' }).then((r) => r.data),
 
+  getSignedFolioPdf: (id: number) =>
+    apiClient.get<Blob>(`/folio/${id}/signed`, { responseType: 'blob' }).then((r) => r.data),
+
   sendUpdate: (id: number) =>
     apiClient.post<void>(`/folio/${id}/send-update`).then((r) => r.data),
 
@@ -104,6 +107,9 @@ export const folioApi = {
     handedOverBy?: string;
     collectorIdType?: string;
     collectorIdNumber: string;
+    collectorFullName?: string;
+    collectorRelationship?: string;
+    collectorAcknowledged?: boolean;
     deliveryMethod?: string;
     handoverRemarks?: string;
   }) =>

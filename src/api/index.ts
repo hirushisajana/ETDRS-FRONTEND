@@ -14,3 +14,4 @@ export { registryDataApi } from './registry-data';
 export { publicApi } from './public';
 export { privacyApi } from './privacy';
 export { notaryApi } from './notary';
+export { signatureApi } from './signature';

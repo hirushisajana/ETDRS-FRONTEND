@@ -12,3 +12,4 @@ export * from './privacy';
 export * from './common';
 export * from './enums';
 export * from './notary';
+export * from './signature';

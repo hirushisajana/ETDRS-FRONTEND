@@ -40,6 +40,13 @@ export interface Folio {
   handedOverBy: string | null;
   collectorIdType: string | null;
   collectorIdNumber: string | null;
+  collectorFullName: string | null;
+  collectorRelationship: string | null;
+  collectorAcknowledged: boolean | null;
+  registrarSignatureId: number | null;
+  signatureAppliedAt: string | null;
+  hasSignedFolio: boolean | null;
+  signedFolioFilePath: string | null;
   certificateNumber: string | null;
   deliveryMethod: string | null;
   handoverRemarks: string | null;

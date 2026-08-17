@@ -9,6 +9,7 @@ export interface RegistrationCertificate {
   registryId: number;
   registryName: string | null;
   issuedBy: string | null;
+  issuedByUserId: number | null;
   issuedDate: string;
   expiryDate: string;
   issuedAt: string | null;
