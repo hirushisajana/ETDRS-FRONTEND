@@ -7,6 +7,8 @@ export interface SuspiciousReport {
   registryId: number;
   reportedBy: number;
   reportedByName: string;
+  verifiedByName: string | null;
+  verifiedAt: string | null;
   reason: string;
   concerns: string | null;
   trustName: string | null;

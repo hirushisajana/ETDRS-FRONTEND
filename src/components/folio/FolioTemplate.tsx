@@ -135,6 +135,58 @@ export default function FolioTemplate({ folio, parties, properties }: Props) {
         </>
       )}
 
+      {/* Registrar Signature & Seal */}
+      {folio.signatureAppliedAt && (
+        <div className="mt-8 pt-5 border-t-2 border-gray-300 flex items-end justify-between gap-6 flex-wrap">
+          <div>
+            <h4 className="text-xs font-bold text-gray-800 uppercase tracking-wider mb-3">
+              Registrar Signature &amp; Seal
+            </h4>
+            <div className="space-y-1 text-sm text-gray-800">
+              <p>
+                <span className="text-gray-500 font-semibold">Confirmed By: </span>
+                {folio.registrarVerifiedBy || 'Registrar'}
+              </p>
+              <p>
+                <span className="text-gray-500 font-semibold">Verification: </span>
+                {folio.registrarVerificationType || folio.approvalStatus}
+              </p>
+              <p>
+                <span className="text-gray-500 font-semibold">Signature Date: </span>
+                {new Date(folio.signatureAppliedAt).toLocaleDateString('en-GB')}
+              </p>
+              {folio.sealAppliedAt && (
+                <p>
+                  <span className="text-gray-500 font-semibold">Sealed Date: </span>
+                  {new Date(folio.sealAppliedAt).toLocaleDateString('en-GB')}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            {folio.sealType === 'RED' && folio.sealAppliedAt ? (
+              <>
+                <div className="w-24 h-24 rounded-full border-4 border-red-600 flex items-center justify-center -rotate-12 opacity-90">
+                  <div className="text-center leading-tight">
+                    <span className="block text-red-700 font-bold text-xs">REJECTED</span>
+                    <span className="block text-red-700 text-[9px] font-semibold mt-0.5">Land Registry</span>
+                    <span className="block text-red-700 text-[8px] tracking-wide mt-0.5">TRUST REGISTRATION</span>
+                  </div>
+                </div>
+                <span className="text-[10px] text-gray-400 font-medium">REJECTED SEAL</span>
+              </>
+            ) : (
+              <div className="flex flex-col items-center gap-1">
+                <div className="px-3 py-1 border-2 border-green-600 -rotate-6 text-green-700 font-bold text-sm tracking-widest uppercase opacity-90">
+                  Registered
+                </div>
+                <span className="text-[10px] text-gray-400 font-medium">REGISTERED STAMP</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Status & Footer */}
       <div className="mt-6 pt-4 border-t border-gray-200 flex items-center justify-between text-xs text-gray-500">
         <div className="flex items-center gap-4">

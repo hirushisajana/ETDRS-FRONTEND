@@ -24,9 +24,11 @@ export default function QuarterlyUpdateForm({ onSuccess }: QuarterlyUpdateFormPr
     setSearchError('');
     setOriginal(null);
     try {
-      const entry = await daybookApi.getByDaybookNumber(searchNumber.trim());
+      const entry = await daybookApi.getByDaybookNumber(searchNumber.trim().toUpperCase());
       if (entry.status !== 'REGISTERED') {
-        setSearchError('Only REGISTERED deeds can have quarterly updates');
+        setSearchError(
+          `This deed exists but is not eligible for a quarterly update (current status: ${entry.status}). Only REGISTERED deeds can have quarterly updates.`,
+        );
         return;
       }
       setOriginal(entry);
@@ -112,7 +114,7 @@ export default function QuarterlyUpdateForm({ onSuccess }: QuarterlyUpdateFormPr
           )}
 
           <p className="text-sm text-gray-500 mb-4">
-            This will create quarterly update #{((original as any).quarterlyUpdateNumber ?? 0) + 1} for this deed.
+            This will create quarterly update #{(original.quarterlyUpdateNumber ?? 0) + 1} for this deed.
             Update client details below if they have changed.
           </p>
 

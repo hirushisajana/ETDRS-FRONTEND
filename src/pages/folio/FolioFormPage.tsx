@@ -98,6 +98,9 @@ export default function FolioFormPage() {
   const [deedUploading, setDeedUploading] = useState(false);
   const [deedFileName, setDeedFileName] = useState<string | null>(null);
 
+  // Signed folio
+  const [signedFolioLoading, setSignedFolioLoading] = useState(false);
+
   // Confirm dialogs
   const [confirmAction, setConfirmAction] = useState<'submit' | 'report' | 'reject' | null>(null);
   const [actionReason, setActionReason] = useState('');
@@ -164,6 +167,21 @@ export default function FolioFormPage() {
       setError(e?.message || 'Failed to upload deed');
     } finally {
       setDeedUploading(false);
+    }
+  }
+
+  async function handleViewSignedFolio() {
+    setSignedFolioLoading(true);
+    setError('');
+    try {
+      const blob = await folioApi.getSignedFolioPdf(folioId);
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } catch (err: unknown) {
+      const e = err as { message?: string };
+      setError(e?.message || 'Failed to load signed folio');
+    } finally {
+      setSignedFolioLoading(false);
     }
   }
 
@@ -1119,6 +1137,30 @@ export default function FolioFormPage() {
             )}
           </div>
 
+          {folio.signatureAppliedAt && (
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5">
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <div>
+                  <h3 className="text-sm font-semibold text-slate-900">Signed Folio</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Confirmed by {folio.registrarVerifiedBy || 'Registrar'} on{' '}
+                    {new Date(folio.signatureAppliedAt).toLocaleDateString('en-GB')}
+                    {folio.sealType === 'RED' && folio.sealAppliedAt
+                      ? ` — RED (REJECTED) seal applied on ${new Date(folio.sealAppliedAt).toLocaleDateString('en-GB')}`
+                      : ''}
+                  </p>
+                </div>
+                <button
+                  onClick={handleViewSignedFolio}
+                  disabled={signedFolioLoading}
+                  className="px-5 py-2.5 bg-maroon-700 hover:bg-maroon-800 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
+                >
+                  {signedFolioLoading ? 'Loading...' : 'View Signed Folio'}
+                </button>
+              </div>
+            </div>
+          )}
+
           {isBlocked && (
             <div className="px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
               Cannot submit — notary is not ACTIVE. Please verify the notary.
@@ -1172,7 +1214,7 @@ export default function FolioFormPage() {
                 disabled={loading}
                 className="px-6 py-2.5 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
-                ! Flag Suspicious
+                ! Submit as Suspicious
               </button>
             </div>
               </>
@@ -1195,6 +1237,9 @@ export default function FolioFormPage() {
                 <h3 className="text-sm font-semibold text-slate-900">Flag Suspicious Activity</h3>
                 <p className="text-xs text-slate-400 mt-0.5">
                   Trust: {trustName || '—'} &bull; Daybook: {folio.daybookNumber}
+                </p>
+                <p className="text-xs text-slate-500 mt-1 font-medium">
+                  The report is sent to the Registry Admin for verification; the folio workflow continues unchanged in the meantime.
                 </p>
               </div>
             </div>
@@ -1261,7 +1306,7 @@ export default function FolioFormPage() {
                     setShowSuspiciousDialog(false);
                     setSuspiciousReason('');
                     setSuspiciousConcerns([]);
-                    setSuccessMsg('Suspicious activity reported. Confirmation sent to authorities.');
+                    setSuccessMsg('Suspicious proposal submitted to Registry Admin for verification.');
                     setTimeout(() => setSuccessMsg(''), 5000);
                   } catch (err: unknown) {
                     const e = err as { message?: string };

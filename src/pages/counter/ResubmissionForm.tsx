@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { daybookApi } from '../../api';
 import { StatusBadge } from '../../components/shared';
 import type { DaybookEntry, TrustType, TrustCategory, ServiceType } from '../../types';
@@ -8,49 +8,46 @@ interface ResubmissionFormProps {
   onSuccess: (entry: DaybookEntry) => void;
 }
 
+const RESUBMISSION_ELIGIBLE_STATUSES = [
+  'PENDING_CORRECTION',
+  'REPORTED',
+  'REPORTED_PENDING_VERIFICATION',
+  'REJECTED_PENDING_VERIFICATION',
+];
+
 export default function ResubmissionForm({ prefillEntry, onSuccess }: ResubmissionFormProps) {
   const [searchNumber, setSearchNumber] = useState('');
-  const [original, setOriginal] = useState<DaybookEntry | null>(null);
+  const [original, setOriginal] = useState<DaybookEntry | null>(prefillEntry ?? null);
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [trustType, setTrustType] = useState<TrustType | null>(null);
-  const [trustCategory, setTrustCategory] = useState<TrustCategory | null>(null);
-  const [clientName, setClientName] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
-  const [clientTelephone, setClientTelephone] = useState('');
-  const [deedNumber, setDeedNumber] = useState('');
-  const [serviceType, setServiceType] = useState<ServiceType | null>(null);
-  const [registrationFee, setRegistrationFee] = useState('');
-
-  useEffect(() => {
-    if (prefillEntry && !original) {
-      setOriginal(prefillEntry);
-      setTrustType(prefillEntry.trustType);
-      setTrustCategory(prefillEntry.trustCategory);
-      setClientName(prefillEntry.clientName ?? '');
-      setClientEmail(prefillEntry.clientEmail ?? '');
-      setClientTelephone(prefillEntry.clientTelephone ?? '');
-      setDeedNumber(prefillEntry.deedNumber ?? '');
-      setServiceType(prefillEntry.serviceType);
-      setRegistrationFee(prefillEntry.registrationFee?.toString() ?? '');
-    }
-  }, [prefillEntry]);
+  const [trustType, setTrustType] = useState<TrustType | null>(prefillEntry?.trustType ?? null);
+  const [trustCategory, setTrustCategory] = useState<TrustCategory | null>(prefillEntry?.trustCategory ?? null);
+  const [clientName, setClientName] = useState(prefillEntry?.clientName ?? '');
+  const [clientEmail, setClientEmail] = useState(prefillEntry?.clientEmail ?? '');
+  const [clientTelephone, setClientTelephone] = useState(prefillEntry?.clientTelephone ?? '');
+  const [deedNumber, setDeedNumber] = useState(prefillEntry?.deedNumber ?? '');
+  const [serviceType, setServiceType] = useState<ServiceType | null>(prefillEntry?.serviceType ?? null);
+  const [registrationFee, setRegistrationFee] = useState(prefillEntry?.registrationFee?.toString() ?? '');
 
   const handleSearch = async () => {
     if (!searchNumber.trim()) return;
     setSearching(true);
     setSearchError('');
+    setOriginal(null);
     try {
-      const entry = await daybookApi.getByDaybookNumber(searchNumber.trim());
+      const entry = await daybookApi.getByDaybookNumber(searchNumber.trim().toUpperCase());
       if (entry.status === 'REJECTED') {
         setSearchError('This deed has been rejected and cannot be re-submitted');
         return;
       }
-      if (entry.status !== 'PENDING_CORRECTION') {
-        setSearchError('Only deeds pending correction can be re-submitted');
+      if (!RESUBMISSION_ELIGIBLE_STATUSES.includes(entry.status)) {
+        setSearchError(
+          `This deed exists but is not eligible for re-submission (current status: ${entry.status}). ` +
+            'Only deeds sent back for correction, reported, or pending verification can be re-submitted.',
+        );
         return;
       }
       setOriginal(entry);

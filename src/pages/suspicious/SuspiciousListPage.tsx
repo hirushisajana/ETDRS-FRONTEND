@@ -13,6 +13,7 @@ export default function SuspiciousListPage() {
   const [sendingDefence, setSendingDefence] = useState(false);
   const [sendingFiu, setSendingFiu] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [viewingDeed, setViewingDeed] = useState(false);
 
   const { data: reports, isLoading } = useQuery({
     queryKey: ['suspicious'],
@@ -69,6 +70,19 @@ export default function SuspiciousListPage() {
       alert('Failed to download report PDF');
     } finally {
       setDownloading(false);
+    }
+  };
+
+  const handleViewDeed = async (report: SuspiciousReport) => {
+    setViewingDeed(true);
+    try {
+      const blob = await suspiciousApi.getDeedFile(report.id);
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } catch {
+      alert('Failed to load deed scan');
+    } finally {
+      setViewingDeed(false);
     }
   };
 
@@ -275,6 +289,15 @@ export default function SuspiciousListPage() {
                     className="px-3 py-1.5 text-xs font-medium bg-maroon-700 hover:bg-maroon-800 disabled:bg-gray-300 text-white rounded-md transition-colors disabled:cursor-not-allowed cursor-pointer"
                   >
                     {downloading ? 'Downloading...' : 'Download PDF'}
+                  </button>
+                )}
+                {selected.deedScanPath && (
+                  <button
+                    onClick={() => handleViewDeed(selected)}
+                    disabled={viewingDeed}
+                    className="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:cursor-not-allowed cursor-pointer"
+                  >
+                    {viewingDeed ? 'Loading...' : 'View Deed'}
                   </button>
                 )}
                 <button

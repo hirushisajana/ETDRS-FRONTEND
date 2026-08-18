@@ -35,6 +35,9 @@ const allSections: { title: string; items: NavItem[] }[] = [
       { label: 'Quarterly Updates', path: '/daybook/counter', tab: 'update', icon: 'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182', roles: ['COUNTER_USER'] },
       { label: 'Re-submission', path: '/daybook/counter', tab: 'resubmit', icon: 'M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3', roles: ['COUNTER_USER'] },
       { label: 'Handover', path: '/daybook/handover', icon: 'M8.25 4.5l7.5 7.5-7.5 7.5M15.75 12H3.75', roles: ['COUNTER_USER'] },
+      { label: 'Completed Handovers', path: '/daybook/handover/history', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', roles: ['COUNTER_USER'] },
+      { label: 'Recent Entries', path: '/daybook/recent', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', roles: ['COUNTER_USER'] },
+      { label: 'Rejected Deeds', path: '/daybook/rejected', icon: 'M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636', roles: ['COUNTER_USER'] },
     ],
   },
   {

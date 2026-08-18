@@ -62,7 +62,7 @@ const baseFolio: Folio = {
   certificateNumber: null,
   deliveryMethod: null,
   handoverRemarks: null,
-  sealType: 'GREEN',
+  sealType: null,
   sealAppliedAt: null,
   scanFilePath: null,
   hasScan: false,

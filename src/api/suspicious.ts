@@ -3,10 +3,18 @@ import type { SuspiciousReport } from '../types';
 
 export const suspiciousApi = {
   getAll: (params?: Record<string, unknown>) =>
-    apiClient.get<SuspiciousReport[]>('/suspicious', { params }).then((r) => r.data),
+    apiClient
+      .get<{ content: SuspiciousReport[] }>('/suspicious', { params })
+      .then((r) => r.data.content),
 
   getById: (id: number) =>
     apiClient.get<SuspiciousReport>(`/suspicious/${id}`).then((r) => r.data),
+
+  getDeedFile: (id: number) =>
+    apiClient.get<Blob>(`/suspicious/${id}/deed`, { responseType: 'blob' }).then((r) => r.data),
+
+  verifyReport: (id: number) =>
+    apiClient.post<SuspiciousReport>(`/suspicious/${id}/verify`).then((r) => r.data),
 
   acknowledge: (id: number) =>
     apiClient.put<void>(`/suspicious/${id}/acknowledge`).then((r) => r.data),

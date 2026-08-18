@@ -14,7 +14,12 @@ export interface RegistrationCertificate {
   expiryDate: string;
   issuedAt: string | null;
   status: CertificateStatus;
+  certificateType: 'ORIGINAL' | 'RENEWAL';
+  active: boolean | null;
+  originalCertificateId: number | null;
   renewedFromCertificateId: number | null;
+  renewalAlertSent: boolean | null;
+  daysUntilExpiry: number | null;
   createdAt: string;
   updatedAt: string;
 }

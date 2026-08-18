@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { daybookApi } from '../../api';
-import { StatusBadge, LoadingSpinner, EmptyState } from '../../components/shared';
+import { StatusBadge, LoadingSpinner } from '../../components/shared';
 import { useAuth } from '../../contexts';
 import type { DaybookEntry } from '../../types';
 
 interface DashboardProps {
   onViewEntry: (entry: DaybookEntry) => void;
-  onViewReceipt: (entryId: number) => void;
 }
 
 const cards = [
@@ -37,7 +35,7 @@ const cards = [
   },
 ];
 
-export default function CounterDashboard({ onViewEntry, onViewReceipt }: DashboardProps) {
+export default function CounterDashboard({ onViewEntry }: DashboardProps) {
   const { user } = useAuth();
   const currentYear = new Date().getFullYear();
 
@@ -64,28 +62,9 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
   const generalCount = entries.filter((e) => e.serviceType === 'GENERAL').length;
   const totalCount = entries.length;
 
-  const [resendingId, setResendingId] = useState<number | null>(null);
-
-  const handleResend = async (entry: DaybookEntry) => {
-    setResendingId(entry.id);
-    try {
-      await daybookApi.resendReceipt(entry.id);
-      alert(`Receipt email resent to ${entry.clientEmail}`);
-    } catch (err: unknown) {
-      const axiosErr = err as { response?: { data?: { message?: string } } };
-      alert(axiosErr?.response?.data?.message || 'Failed to resend receipt email');
-    } finally {
-      setResendingId(null);
-    }
-  };
-
   const pendingCorrectionEntries = entries.filter(
     (e) => e.status === 'PENDING_CORRECTION'
   );
-
-  const rejectedEntries = entries.filter((e) => e.status === 'REJECTED');
-
-  const recentEntries = [...entries].reverse().slice(0, 10);
 
   const statValues = [
     totalCount,
@@ -180,145 +159,7 @@ export default function CounterDashboard({ onViewEntry, onViewReceipt }: Dashboa
         </div>
       )}
 
-      {/* Rejected Deeds (read-only, no resubmission) */}
-      {rejectedEntries.length > 0 && (
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-          <div className="flex items-center gap-2.5 px-4 py-3 bg-gray-50 border-b border-gray-100">
-            <div className="w-7 h-7 rounded-md bg-red-100 flex items-center justify-center">
-              <svg className="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-800">Rejected Deeds</h3>
-              <p className="text-[11px] text-gray-400">
-                Rejected deeds are permanent and displayed for record purposes only
-              </p>
-            </div>
-          </div>
-          <div className="divide-y divide-gray-50">
-            {rejectedEntries.map((e) => (
-              <div key={e.id} className="flex items-start gap-3 px-4 py-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-mono text-gray-800">{e.daybookNumber}</span>
-                    <span className="text-sm text-gray-500">— {e.clientName ?? 'N/A'}</span>
-                    <StatusBadge status={e.status} />
-                  </div>
-                  {e.folioRejectionReason && (
-                    <p className="text-xs text-red-600 mt-1">
-                      Rejection reason: {e.folioRejectionReason}
-                    </p>
-                  )}
-                </div>
-                <span className="text-[11px] text-gray-400 shrink-0 mt-0.5">Closed</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Recent Entries */}
-      <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-md bg-maroon-100 flex items-center justify-center">
-              <svg className="w-4 h-4 text-maroon-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-gray-800">Recent Entries</h3>
-              <p className="text-[11px] text-gray-400">Latest {recentEntries.length} daybook entries</p>
-            </div>
-          </div>
-          <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-md font-medium">
-            {currentYear}
-          </span>
-        </div>
-        <div>
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : !recentEntries.length ? (
-            <EmptyState message="No entries found for this year" />
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50/80">
-                    {['Daybook #', 'Client', 'Type', 'Category', 'Service', 'Fee', 'Status', 'Receipt'].map((h) => (
-                      <th key={h} className="px-4 py-2.5 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {recentEntries.map((entry, idx) => {
-                    const isRejected = entry.status === 'REJECTED';
-                    return (
-                    <tr
-                      key={entry.id}
-                      onClick={() => { if (!isRejected) onViewEntry(entry); }}
-                      className={`transition-colors hover:bg-gray-50 ${
-                        isRejected ? 'cursor-default' : 'cursor-pointer'
-                      } ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}
-                    >
-                      <td className="px-4 py-3 font-mono text-xs text-gray-800">{entry.daybookNumber}</td>
-                      <td className="px-4 py-3 text-gray-700">{entry.clientName ?? '-'}</td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
-                          entry.trustType === 'EXPRESS' ? 'bg-maroon-100 text-maroon-700' : 'bg-amber-100 text-amber-700'
-                        }`}>
-                          {entry.trustType === 'EXPRESS' ? 'E' : 'N'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{entry.trustCategory}</td>
-                      <td className="px-4 py-3 text-gray-600">{entry.serviceType ?? '-'}</td>
-                      <td className="px-4 py-3 text-gray-700 font-medium">
-                        {entry.registrationFee != null ? `Rs ${entry.registrationFee.toLocaleString()}` : '-'}
-                      </td>
-                      <td className="px-4 py-3"><StatusBadge status={entry.status} /></td>
-                      <td className="px-4 py-3">
-                        {entry.receiptDelivery === 'EMAIL' && entry.clientEmail ? (
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={(e) => { e.stopPropagation(); onViewReceipt(entry.id); }}
-                              className="text-xs font-medium text-gray-600 hover:text-gray-800 underline"
-                            >
-                              View
-                            </button>
-                            <button
-                              onClick={(e) => { e.stopPropagation(); handleResend(entry); }}
-                              disabled={resendingId === entry.id}
-                              className="inline-flex items-center gap-1 text-xs font-medium text-blue-700 hover:text-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                              {resendingId === entry.id ? (
-                                <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                                </svg>
-                              ) : (
-                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                              )}
-                              {resendingId === entry.id ? 'Sending...' : 'Resend'}
-                            </button>
-                          </div>
-                        ) : (
-                          <span className="text-[11px] text-gray-400">{entry.receiptDelivery === 'PRINT' ? 'Print' : '—'}</span>
-                        )}
-                      </td>
-                    </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
+      {isLoading && <LoadingSpinner />}
     </div>
   );
 }

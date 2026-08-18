@@ -69,6 +69,9 @@ const statusColors: Record<string, string> = {
   READY_FOR_HANDOVER: 'bg-violet-50 text-violet-800 ring-1 ring-inset ring-violet-600/30',
   HANDED_OVER: 'bg-teal-50 text-teal-800 ring-1 ring-inset ring-teal-600/30',
   SUSPICIOUS: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
+  RENEWED: 'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20',
+  EXPIRING_SOON: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20',
+  REVOKED: 'bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20',
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {
@@ -100,6 +103,18 @@ export function EmptyState({ message }: EmptyStateProps) {
   return (
     <div className="py-12 text-center">
       <p className="text-sm text-slate-500">{message}</p>
+    </div>
+  );
+}
+
+interface ErrorStateProps {
+  message?: string;
+}
+
+export function ErrorState({ message = 'Failed to load data. Please try again.' }: ErrorStateProps) {
+  return (
+    <div className="py-12 text-center">
+      <p className="text-sm font-medium text-red-700">{message}</p>
     </div>
   );
 }

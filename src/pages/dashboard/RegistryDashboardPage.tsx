@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { dashboardApi } from '../../api';
 import { useAuth } from '../../contexts';
 import { LoadingSpinner } from '../../components/shared';
-import { useState } from 'react';
 
 interface StatCard {
   key: keyof RegistryStatMap;
@@ -30,7 +29,12 @@ type RegistryStatMap = {
   nextDaybookFormat: string | null;
 };
 
-const primaryStats: StatCard[] = [];
+const primaryStats: StatCard[] = [
+  { key: 'totalRequests', label: 'Total requests', icon: 'M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z', accent: 'border-l-maroon-700', bg: 'bg-maroon-50' },
+  { key: 'pendingApprovals', label: 'Approvals pending', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', accent: 'border-l-emerald-600', bg: 'bg-emerald-50' },
+  { key: 'registeredToday', label: 'Registered today', icon: 'M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z', accent: 'border-l-blue-600', bg: 'bg-blue-50' },
+  { key: 'pendingSuspiciousReports', label: 'Suspicious pending', icon: 'M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z', accent: 'border-l-violet-600', bg: 'bg-violet-50' },
+];
 
 const quickLinks = [
   { label: 'Daybook Queue', path: '/daybook/pending', icon: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25', desc: 'Review and process daybook entries', color: 'text-blue-600', bg: 'bg-blue-50', border: 'hover:border-blue-200 hover:bg-blue-50/50' },
@@ -39,13 +43,9 @@ const quickLinks = [
   { label: 'Approvals', path: '/approval', icon: 'M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z', desc: 'Review and approve registrations', color: 'text-maroon-700', bg: 'bg-maroon-50', border: 'hover:border-maroon-200 hover:bg-maroon-50/50' },
 ];
 
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const sampleHeights = [45, 52, 38, 65, 58, 72, 48, 55, 62, 70, 50, 68];
-
 export default function RegistryDashboardPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [hoveredMonth, setHoveredMonth] = useState<number | null>(null);
 
   const { data: stats, isLoading } = useQuery({
     queryKey: ['dashboard', 'registry'],
@@ -98,7 +98,7 @@ export default function RegistryDashboardPage() {
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {primaryStats.map(({ key, label, icon, accent, bg }) => {
-          const val = (s as any)[key] ?? 0;
+          const val = s[key] ?? 0;
           return (
             <div
               key={key}
@@ -171,49 +171,35 @@ export default function RegistryDashboardPage() {
         </div>
       </div>
 
-      {/* Monthly Trend + Staff Summary */}
+      {/* Today's Activity + Staff Summary */}
       <div className="grid lg:grid-cols-3 gap-6 mb-8">
-        {/* Monthly Registration Trend */}
+        {/* Today's Registration Activity */}
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <div>
-              <h3 className="text-sm font-semibold text-gray-900">Monthly Registration Trend</h3>
-              <p className="text-[11px] text-gray-400 mt-0.5">Current year activity by month</p>
+              <h3 className="text-sm font-semibold text-gray-900">Today&apos;s Registration Activity</h3>
+              <p className="text-[11px] text-gray-400 mt-0.5">Requests handled today across all staff</p>
             </div>
             <span className="text-xs font-medium text-gray-500 bg-gray-50 border border-gray-200 px-2.5 py-1 rounded-md">
-              {today.getFullYear()}
+              {today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
             </span>
           </div>
           <div className="px-5 py-5">
-            <div className="flex items-end gap-2 h-44">
-              {months.map((m, i) => {
-                const val = sampleHeights[i];
-                const isHovered = hoveredMonth === i;
+            <div className="grid grid-cols-3 gap-4">
+              {[
+                { label: 'Total requests', value: s.totalRequests ?? 0, color: 'text-gray-900', bar: 'bg-maroon-700' },
+                { label: 'Registered', value: s.registeredToday ?? 0, color: 'text-emerald-600', bar: 'bg-emerald-500' },
+                { label: 'Rejected', value: s.rejectedToday ?? 0, color: 'text-rose-600', bar: 'bg-rose-400' },
+              ].map((item) => {
+                const total = Math.max(s.totalRequests ?? 0, 1);
+                const pct = total > 0 ? (item.value / total) * 100 : 0;
                 return (
-                  <div
-                    key={m}
-                    className="flex-1 flex flex-col items-center gap-1.5"
-                    onMouseEnter={() => setHoveredMonth(i)}
-                    onMouseLeave={() => setHoveredMonth(null)}
-                  >
-                    <div className="relative w-full flex justify-center">
-                      <div
-                        className={`w-full max-w-[28px] bg-maroon-700 rounded-sm transition-all duration-200 cursor-pointer ${
-                          isHovered ? 'opacity-100' : 'opacity-80 hover:opacity-100'
-                        }`}
-                        style={{ height: `${val}%` }}
-                      />
-                      {isHovered && (
-                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[11px] font-medium px-2 py-1 rounded shadow-lg whitespace-nowrap z-10">
-                          {val} registrations
-                        </div>
-                      )}
+                  <div key={item.label} className="bg-gray-50 rounded-xl p-4">
+                    <p className="text-[11px] font-medium text-gray-500">{item.label}</p>
+                    <p className={`text-2xl font-bold tabular-nums ${item.color}`}>{item.value}</p>
+                    <div className="mt-2 h-1.5 bg-white rounded-full overflow-hidden">
+                      <div className={`h-full ${item.bar} rounded-full transition-all duration-500`} style={{ width: `${pct}%` }} />
                     </div>
-                    <span className={`text-[10px] font-medium transition-colors ${
-                      isHovered ? 'text-gray-900' : 'text-gray-400'
-                    }`}>
-                      {m}
-                    </span>
                   </div>
                 );
               })}

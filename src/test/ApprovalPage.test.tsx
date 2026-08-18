@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ApprovalPage from '../pages/approval/ApprovalPage';
-import { approvalApi, scanApi, signatureApi } from '../api';
-import type { Folio, RegistrarSignature } from '../types';
+import { approvalApi, scanApi, signatureApi, suspiciousApi } from '../api';
+import type { Folio, RegistrarSignature, SuspiciousReport } from '../types';
 
 vi.mock('../api', () => ({
   approvalApi: {
@@ -24,6 +24,10 @@ vi.mock('../api', () => ({
   },
   signatureApi: {
     getMySignature: vi.fn(),
+  },
+  suspiciousApi: {
+    getAll: vi.fn(),
+    verifyReport: vi.fn(),
   },
 }));
 
@@ -112,6 +116,29 @@ const mockSignature: RegistrarSignature = {
   updatedAt: '2026-08-01 10:00:00',
 };
 
+const mockReport: SuspiciousReport = {
+  id: 7,
+  daybookEntryId: 1,
+  folioId: 1,
+  registryId: 5,
+  reportedBy: 20,
+  reportedByName: 'Folio User',
+  verifiedByName: null,
+  verifiedAt: null,
+  reason: 'Identity mismatch',
+  concerns: 'FRAUD',
+  trustName: 'Jayasuriya Family Trust',
+  partiesSummary: null,
+  deedScanPath: null,
+  reportStatus: 'SUBMITTED',
+  sentToDefence: false,
+  sentToDefenceAt: null,
+  sentToFiu: false,
+  sentToFiuAt: null,
+  createdAt: '2026-08-01T10:00:00',
+  updatedAt: '2026-08-01T10:00:00',
+};
+
 const renderPage = () => {
   const qc = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
@@ -126,6 +153,7 @@ describe('ApprovalPage signature gate', () => {
     vi.clearAllMocks();
     vi.mocked(approvalApi.getPendingApprovals).mockResolvedValue([pendingFolio]);
     vi.mocked(scanApi.getDeedFile).mockResolvedValue(new Blob());
+    vi.mocked(suspiciousApi.getAll).mockResolvedValue([]);
   });
 
   it('shows the signature-gate banner when no active signature exists', async () => {
@@ -169,5 +197,20 @@ describe('ApprovalPage signature gate', () => {
 
     const registerBtn = await screen.findByRole('button', { name: '✓ Verify & Register' });
     expect(registerBtn).toBeEnabled();
+  });
+
+  it('verifies a suspicious proposal from the Suspicious Reports tab', async () => {
+    vi.mocked(signatureApi.getMySignature).mockResolvedValue(mockSignature);
+    vi.mocked(suspiciousApi.getAll).mockResolvedValue([mockReport]);
+
+    renderPage();
+
+    await userEvent.click(await screen.findByText('Suspicious Reports'));
+
+    expect(await screen.findByText('Jayasuriya Family Trust')).toBeInTheDocument();
+    expect(screen.getByText('Identity mismatch')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: '✓ Verify' }));
+    expect(suspiciousApi.verifyReport).toHaveBeenCalledWith(7);
   });
 });

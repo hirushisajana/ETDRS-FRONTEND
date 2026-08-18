@@ -36,6 +36,9 @@ const UserFormPage = lazy(() => import('../pages/users/UserFormPage'));
 // Daybook / Counter
 const CounterPage = lazy(() => import('../pages/counter/CounterPage'));
 const CounterHandoverPage = lazy(() => import('../pages/counter/CounterHandoverPage'));
+const RecentEntriesPage = lazy(() => import('../pages/counter/RecentEntriesPage'));
+const RejectedDeedsPage = lazy(() => import('../pages/counter/RejectedDeedsPage'));
+const CompletedHandoversPage = lazy(() => import('../pages/counter/CompletedHandoversPage'));
 
 // Daybook Pending
 const DaybookPendingPage = lazy(() => import('../pages/daybook/DaybookPendingPage'));
@@ -243,6 +246,30 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute roles={['COUNTER_USER', 'REGISTRY_ADMIN'] as UserRole[]}>
         <AppLayout><CounterHandoverPage /></AppLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/daybook/handover/history',
+    element: (
+      <ProtectedRoute roles={['COUNTER_USER', 'REGISTRY_ADMIN'] as UserRole[]}>
+        <AppLayout><CompletedHandoversPage /></AppLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/daybook/recent',
+    element: (
+      <ProtectedRoute roles={['COUNTER_USER', 'REGISTRY_ADMIN'] as UserRole[]}>
+        <AppLayout><RecentEntriesPage /></AppLayout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/daybook/rejected',
+    element: (
+      <ProtectedRoute roles={['COUNTER_USER', 'REGISTRY_ADMIN'] as UserRole[]}>
+        <AppLayout><RejectedDeedsPage /></AppLayout>
       </ProtectedRoute>
     ),
   },

@@ -7,6 +7,7 @@ import type {
   ResubmissionRequest,
   ReceiptResponse,
   NotaryResponse,
+  Folio,
 } from '../types';
 
 export const daybookApi = {
@@ -30,7 +31,16 @@ export const daybookApi = {
     apiClient.get<DaybookEntry>(`/daybook/${id}`).then((r) => r.data),
 
   getByDaybookNumber: (daybookNumber: string) =>
-    apiClient.get<DaybookEntry>(`/daybook/number/${daybookNumber}`).then((r) => r.data),
+    apiClient.get<DaybookEntry>('/daybook/lookup', { params: { daybookNumber } }).then((r) => r.data),
+
+  getRejected: () =>
+    apiClient.get<Folio[]>('/daybook/rejected').then((r) => r.data),
+
+  getRecent: (limit = 50) =>
+    apiClient.get<DaybookEntry[]>('/daybook/recent', { params: { limit } }).then((r) => r.data),
+
+  getCompletedHandovers: () =>
+    apiClient.get<Folio[]>('/daybook/handover/completed').then((r) => r.data),
 
   checkDeedNumber: (notaryName: string, deedNumber: string) =>
     apiClient.get<boolean>('/daybook/check-deed-number', { params: { notaryName, deedNumber } }).then((r) => r.data),

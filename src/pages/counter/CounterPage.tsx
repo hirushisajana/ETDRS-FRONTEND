@@ -11,17 +11,21 @@ import type { DaybookEntry, ReceiptResponse } from '../../types';
 
 type Tab = 'dashboard' | 'new' | 'update' | 'resubmit';
 
+const VALID_TABS: Tab[] = ['new', 'update', 'resubmit'];
+
 export default function CounterPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get('tab') as Tab | null;
-  const [activeTab, setActiveTab] = useState<Tab>(tabParam && ['new', 'update', 'resubmit'].includes(tabParam) ? tabParam : 'dashboard');
+  const activeTab: Tab = tabParam && VALID_TABS.includes(tabParam) ? tabParam : 'dashboard';
   const [successEntry, setSuccessEntry] = useState<DaybookEntry | null>(null);
+  const [successTab, setSuccessTab] = useState<Tab>('dashboard');
   const [receipt, setReceipt] = useState<ReceiptResponse | null>(null);
   const [receiptLoading, setReceiptLoading] = useState(false);
   const [prefillResubmit, setPrefillResubmit] = useState<DaybookEntry | null>(null);
 
+  const showSuccess = successEntry !== null && successTab === activeTab;
+
   const switchTab = (tab: Tab) => {
-    setActiveTab(tab);
     setPrefillResubmit(null);
     if (tab === 'dashboard') {
       setSearchParams({}, { replace: true });
@@ -32,6 +36,7 @@ export default function CounterPage() {
 
   const handleNewSuccess = async (entry: DaybookEntry) => {
     setSuccessEntry(entry);
+    setSuccessTab('new');
     setReceiptLoading(true);
     try {
       const r = await daybookApi.getReceipt(entry.id);
@@ -45,10 +50,12 @@ export default function CounterPage() {
 
   const handleUpdateSuccess = (entry: DaybookEntry) => {
     setSuccessEntry(entry);
+    setSuccessTab('update');
   };
 
   const handleResubmitSuccess = async (entry: DaybookEntry) => {
     setSuccessEntry(entry);
+    setSuccessTab('resubmit');
     setReceiptLoading(true);
     try {
       const r = await daybookApi.getReceipt(entry.id);
@@ -62,22 +69,10 @@ export default function CounterPage() {
 
   const handleDashboardViewEntry = (entry: DaybookEntry) => {
     setPrefillResubmit(entry);
-    switchTab('resubmit');
+    setSearchParams({ tab: 'resubmit' }, { replace: true });
   };
 
-  const handleViewReceipt = async (entryId: number) => {
-    setReceiptLoading(true);
-    try {
-      const r = await daybookApi.getReceipt(entryId);
-      setReceipt(r);
-    } catch {
-      alert('Could not load receipt');
-    } finally {
-      setReceiptLoading(false);
-    }
-  };
-
-  if (successEntry) {
+  if (showSuccess) {
     return (
       <div className="p-6">
         <PageHeader
@@ -169,7 +164,7 @@ export default function CounterPage() {
       )}
 
       {activeTab === 'dashboard' && (
-        <CounterDashboard onViewEntry={handleDashboardViewEntry} onViewReceipt={handleViewReceipt} />
+        <CounterDashboard onViewEntry={handleDashboardViewEntry} />
       )}
 
       <div className="tabs" style={{ marginTop: activeTab === 'dashboard' ? 24 : 0 }}>
@@ -202,15 +197,12 @@ export default function CounterPage() {
         )}
         {activeTab === 'resubmit' && (
           <ResubmissionForm
+            key={prefillResubmit?.id ?? 'manual'}
             prefillEntry={prefillResubmit}
             onSuccess={handleResubmitSuccess}
           />
         )}
       </Card>
-
-      {receipt && (
-        <ReceiptModal receipt={receipt} onClose={() => setReceipt(null)} />
-      )}
     </div>
   );
 }

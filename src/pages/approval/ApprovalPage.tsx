@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { approvalApi, scanApi, certificateApi, signatureApi } from '../../api';
+import { approvalApi, scanApi, certificateApi, signatureApi, suspiciousApi } from '../../api';
 import { LoadingSpinner, EmptyState, StatusBadge } from '../../components/shared';
 import { useAuth } from '../../contexts';
 import { formatDateTime } from '../../lib/format';
@@ -8,7 +8,7 @@ import type { Folio, RegistrationCertificate } from '../../types';
 
 type ActionType = 'register' | 'reject' | 'report' | 'sendback' | 'flag';
 type TabType = 'general' | 'parties' | 'properties';
-type ViewType = 'verification' | 'certificates';
+type ViewType = 'verification' | 'suspicious' | 'certificates';
 
 export default function ApprovalPage() {
   const { hasRole } = useAuth();
@@ -23,6 +23,7 @@ export default function ApprovalPage() {
   const [concerns, setConcerns] = useState('');
   const [checks, setChecks] = useState({ name: false, parties: false, properties: false, notary: false });
   const [submitting, setSubmitting] = useState(false);
+  const [showVerifiedSuspicious, setShowVerifiedSuspicious] = useState(false);
 
   const { data: pending, isLoading } = useQuery({
     queryKey: ['approval', 'pending'],
@@ -100,6 +101,33 @@ export default function ApprovalPage() {
     }
   };
 
+  const { data: suspiciousPending, isLoading: suspiciousLoading } = useQuery({
+    queryKey: ['suspicious', 'pending'],
+    queryFn: () => suspiciousApi.getAll({ status: 'SUBMITTED', page: 0, size: 100 }),
+    refetchInterval: 30000,
+  });
+
+  const { data: suspiciousVerified } = useQuery({
+    queryKey: ['suspicious', 'verified'],
+    queryFn: () => suspiciousApi.getAll({ status: 'VERIFIED', page: 0, size: 100 }),
+    enabled: showVerifiedSuspicious,
+    refetchInterval: 30000,
+  });
+
+  const handleVerifySuspicious = async (id: number) => {
+    setSubmitting(true);
+    try {
+      await suspiciousApi.verifyReport(id);
+      queryClient.invalidateQueries({ queryKey: ['suspicious'] });
+      queryClient.invalidateQueries({ queryKey: ['approval'] });
+    } catch (err) {
+      console.error('Suspicious verification failed', err);
+      alert(err instanceof Error ? err.message : 'Failed to verify suspicious report');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleDownload = async (cert: RegistrationCertificate) => {
     try {
       const blob = await certificateApi.download(cert.id);
@@ -140,6 +168,14 @@ export default function ApprovalPage() {
               }`}
             >
               Certificates
+            </button>
+            <button
+              onClick={() => setView('suspicious')}
+              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                view === 'suspicious' ? 'bg-white text-maroon-700 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Suspicious Reports
             </button>
           </div>
         </div>
@@ -444,9 +480,11 @@ export default function ApprovalPage() {
                         {selected.approvalStatus === 'REJECTED_PENDING_VERIFICATION' && (
                           <button
                             onClick={() => setActionType('reject')}
-                            className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-700 transition-colors"
+                            disabled={!hasActiveSignature}
+                            title={hasActiveSignature ? undefined : 'Upload your signature first'}
+                            className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-md hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
-                            ✓ Confirm Reject
+                            {hasActiveSignature ? '✓ Confirm Reject' : 'Upload signature first'}
                           </button>
                         )}
                         <button
@@ -490,6 +528,101 @@ export default function ApprovalPage() {
               </>
             )}
           </div>
+        </div>
+      ) : view === 'suspicious' ? (
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="px-5 py-3 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+              <div>
+                <h2 className="text-sm font-semibold text-gray-800">Suspicious Proposals Awaiting Verification</h2>
+                <p className="text-xs text-gray-500 mt-0.5">Submitted by folio users; verified here by the Registry Admin</p>
+              </div>
+              <label className="flex items-center gap-1.5 text-xs text-gray-600 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={showVerifiedSuspicious}
+                  onChange={(e) => setShowVerifiedSuspicious(e.target.checked)}
+                  className="accent-maroon-700"
+                />
+                Show verified history
+              </label>
+            </div>
+            {suspiciousLoading ? (
+              <LoadingSpinner />
+            ) : !suspiciousPending?.length ? (
+              <EmptyState message="No suspicious proposals pending verification" />
+            ) : (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs text-gray-500 border-b border-gray-100">
+                    <th className="px-5 py-2.5 font-medium">Report #</th>
+                    <th className="px-5 py-2.5 font-medium">Trust Name</th>
+                    <th className="px-5 py-2.5 font-medium">Folio</th>
+                    <th className="px-5 py-2.5 font-medium">Reported By</th>
+                    <th className="px-5 py-2.5 font-medium">Reason</th>
+                    <th className="px-5 py-2.5 font-medium">Reported At</th>
+                    <th className="px-5 py-2.5 font-medium"></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {suspiciousPending.map((report) => (
+                    <tr key={report.id} className="hover:bg-gray-50">
+                      <td className="px-5 py-3 font-medium text-yellow-700">#{report.id}</td>
+                      <td className="px-5 py-3 text-gray-900 font-medium">{report.trustName || 'Untitled'}</td>
+                      <td className="px-5 py-3 text-gray-600">{report.folioId ? `#${report.folioId}` : '—'}</td>
+                      <td className="px-5 py-3 text-gray-600">{report.reportedByName}</td>
+                      <td className="px-5 py-3 text-gray-600 max-w-[240px] truncate">{report.reason}</td>
+                      <td className="px-5 py-3 text-gray-600">{formatDateTime(report.createdAt)}</td>
+                      <td className="px-5 py-3 text-right">
+                        <button
+                          onClick={() => handleVerifySuspicious(report.id)}
+                          disabled={submitting}
+                          className="px-3 py-1.5 text-xs font-semibold bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-300 text-white rounded-md transition-colors disabled:cursor-not-allowed cursor-pointer"
+                        >
+                          {submitting ? 'Verifying...' : '✓ Verify'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          {showVerifiedSuspicious && (
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="px-5 py-3 border-b border-gray-200 bg-gray-50">
+                <h2 className="text-sm font-semibold text-gray-800">Verified Suspicious Reports</h2>
+                <p className="text-xs text-gray-500 mt-0.5">Reports verified by the Registry Admin (folio flagged as suspicious)</p>
+              </div>
+              {!suspiciousVerified?.length ? (
+                <EmptyState message="No verified reports yet" />
+              ) : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-xs text-gray-500 border-b border-gray-100">
+                      <th className="px-5 py-2.5 font-medium">Report #</th>
+                      <th className="px-5 py-2.5 font-medium">Trust Name</th>
+                      <th className="px-5 py-2.5 font-medium">Folio</th>
+                      <th className="px-5 py-2.5 font-medium">Verified By</th>
+                      <th className="px-5 py-2.5 font-medium">Verified At</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {suspiciousVerified.map((report) => (
+                      <tr key={report.id} className="hover:bg-gray-50">
+                        <td className="px-5 py-3 font-medium text-yellow-700">#{report.id}</td>
+                        <td className="px-5 py-3 text-gray-900 font-medium">{report.trustName || 'Untitled'}</td>
+                        <td className="px-5 py-3 text-gray-600">{report.folioId ? `#${report.folioId}` : '—'}</td>
+                        <td className="px-5 py-3 text-gray-600">{report.verifiedByName || '—'}</td>
+                        <td className="px-5 py-3 text-gray-600">{report.verifiedAt ? formatDateTime(report.verifiedAt) : '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto p-6 space-y-6">

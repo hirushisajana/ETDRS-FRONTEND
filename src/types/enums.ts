@@ -66,6 +66,6 @@ export type ReceiptDelivery = 'EMAIL' | 'PRINT' | 'SMS';
 
 export type PurposeFormat = 'SRI_LANKA' | 'FOREIGN';
 
-export type ReportStatus = 'SUBMITTED' | 'ACKNOWLEDGED' | 'RESOLVED';
+export type ReportStatus = 'SUBMITTED' | 'ACKNOWLEDGED' | 'VERIFIED';
 
 export type ConsentType = 'PRIVACY_POLICY' | 'DATA_PROCESSING' | 'MARKETING';
