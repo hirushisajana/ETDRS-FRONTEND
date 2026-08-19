@@ -82,7 +82,7 @@ export function Sidebar() {
     .filter((s) => s.items.length > 0);
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 z-30 flex w-60 flex-col bg-slate-950 text-white">
+    <aside className="fixed left-0 top-0 bottom-0 z-30 flex w-60 flex-col bg-slate-950 text-white no-print">
       <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 h-14">
         <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 text-sm font-black tracking-tight text-white shadow-lg shadow-blue-500/30">
           eT

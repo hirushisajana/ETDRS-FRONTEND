@@ -54,6 +54,7 @@ const entry = (id: number, daybookNumber: string, status: DaybookEntry['status']
   emailSent: null,
   suspiciousFlag: false,
   createdBy: null,
+  createdByName: null,
   createdAt: '2026-08-01T10:00:00',
   updatedAt: '2026-08-01T10:00:00',
 });

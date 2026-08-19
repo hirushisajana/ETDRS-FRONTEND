@@ -47,6 +47,7 @@ export interface DaybookEntry {
   emailSent: boolean | null;
   suspiciousFlag: boolean;
   createdBy: number | null;
+  createdByName: string | null;
   createdAt: string;
   updatedAt: string;
 }

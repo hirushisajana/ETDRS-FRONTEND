@@ -18,7 +18,7 @@ export function Navbar() {
   const { user } = useAuth();
 
   return (
-    <header className="fixed right-0 left-60 top-0 z-40 h-14 border-b border-slate-200 bg-white/80 backdrop-blur-xl">
+    <header className="fixed right-0 left-60 top-0 z-40 h-14 border-b border-slate-200 bg-white/80 backdrop-blur-xl no-print">
       <div className="flex h-full items-center justify-between px-4">
         <div className="flex items-center gap-4">
           <a href="#" className="hidden text-sm text-slate-400 hover:text-slate-700 transition-colors md:block">About</a>

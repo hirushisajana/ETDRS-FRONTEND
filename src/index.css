@@ -365,22 +365,33 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* ═══ Day Book Content (on-screen) ═══ */
+.daybook-content {
+  padding: 24px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
 /* ═══ Print Styles ═══ */
 @media print {
   body { background: white !important; }
   .no-print { display: none !important; }
-  .main-content { margin-left: 0 !important; padding: 0 !important; background: white !important; }
+  .main-content, main { margin-left: 0 !important; padding: 0 !important; background: white !important; }
   .sidebar, .navbar, footer, .app-layout { display: none !important; }
-  .folio-content {
-    padding: 16px !important;
-    page-break-after: avoid;
-  }
+  .pt-14 { padding-top: 0 !important; }
+  .folio-content { padding: 16px !important; page-break-after: avoid; }
   .folio-content table { page-break-inside: avoid; }
   .folio-spread { display: block !important; }
   .folio-page { border: none !important; page-break-inside: avoid; }
   .folio-page + .folio-page { border-top: 1px solid #cbd5e1 !important; }
   .folio-verification { page-break-inside: avoid; }
   @page { size: A5; margin: 8mm; }
+  @page daybook-list { size: A4 landscape; margin: 12mm; }
+  @page daybook-entry { size: A5 portrait; margin: 8mm; }
+  .daybook-register { page: daybook-list; }
+  .daybook-entry { page: daybook-entry; }
+  .daybook-content { padding: 16px !important; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
 }
 
 @media (max-width: 768px) {
