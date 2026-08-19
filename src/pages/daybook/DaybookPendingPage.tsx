@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { daybookApi, notaryApi } from '../../api';
 import { useAuth } from '../../contexts';
 import { StatusBadge, LoadingSpinner } from '../../components/shared';
-import type { DaybookEntry, NotaryResponse } from '../../types';
+import type { DaybookEntry, DaybookEntryRequest, NotaryResponse } from '../../types';
 
 export default function DaybookPendingPage() {
   const { user } = useAuth();
@@ -41,8 +41,8 @@ export default function DaybookPendingPage() {
   });
 
   const submitMutation = useMutation({
-    mutationFn: (data: { id: number; body: Record<string, unknown> }) =>
-      daybookApi.enterDaybookData(data.id, data.body as any),
+    mutationFn: (data: { id: number; body: DaybookEntryRequest }) =>
+      daybookApi.enterDaybookData(data.id, data.body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['daybook'] });
       setSelectedEntry(null);
@@ -160,7 +160,7 @@ export default function DaybookPendingPage() {
       return;
     }
 
-    const body: Record<string, unknown> = {
+    const body: DaybookEntryRequest = {
       deedType: form.deedType,
       submitterName: form.submitterName,
       attestedDate: form.attestedDate,

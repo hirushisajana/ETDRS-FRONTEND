@@ -1,18 +1,32 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { daybookApi } from '../../api';
+import { daybookApi, certificateApi } from '../../api';
 import { PageHeader, LoadingSpinner, EmptyState, ErrorState, Pagination } from '../../components/shared';
+import type { Folio } from '../../types';
 
 const PAGE_SIZE = 10;
 
 export default function CompletedHandoversPage() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [certError, setCertError] = useState('');
 
   const { data: handovers, isLoading, isError, error } = useQuery({
     queryKey: ['handover', 'completed'],
     queryFn: daybookApi.getCompletedHandovers,
   });
+
+  const handleOpenCertificate = async (folio: Folio) => {
+    setCertError('');
+    try {
+      const cert = await certificateApi.getByFolioId(folio.id);
+      const blob = await certificateApi.download(cert.id);
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch {
+      setCertError('Could not open the certificate for this deed');
+    }
+  };
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -67,6 +81,12 @@ export default function CompletedHandoversPage() {
         </span>
       </div>
 
+      {certError && (
+        <div className="mb-4 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+          {certError}
+        </div>
+      )}
+
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         {isLoading ? (
           <LoadingSpinner />
@@ -79,7 +99,7 @@ export default function CompletedHandoversPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50">
-                  {['Folio #', 'Daybook #', 'Deed #', 'Trust Name', 'Collector', 'Delivery Method', 'Handover Date & Time'].map((h) => (
+                  {['Folio #', 'Daybook #', 'Deed #', 'Trust Name', 'Collector', 'Delivery Method', 'Handover Date & Time', 'Certificate'].map((h) => (
                     <th key={h} className="whitespace-nowrap px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                       {h}
                     </th>
@@ -106,6 +126,21 @@ export default function CompletedHandoversPage() {
                     </td>
                     <td className="whitespace-nowrap px-5 py-3 text-slate-600">
                       {formatDateTime(folio.handoverDate, folio.handoverTime)}
+                    </td>
+                    <td className="whitespace-nowrap px-5 py-3">
+                      {folio.certificateNumber ? (
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[11px] text-emerald-700">{folio.certificateNumber}</span>
+                          <button
+                            onClick={() => handleOpenCertificate(folio)}
+                            className="text-xs font-medium text-maroon-700 hover:underline"
+                          >
+                            View / Print
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-slate-400">-</span>
+                      )}
                     </td>
                   </tr>
                 ))}

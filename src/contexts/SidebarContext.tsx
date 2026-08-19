@@ -1,14 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
-
-interface SidebarContextType {
-  collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
-}
-
-const SidebarContext = createContext<SidebarContextType>({
-  collapsed: false,
-  setCollapsed: () => {},
-});
+import { useState, type ReactNode } from 'react';
+import { SidebarContext } from './sidebar-context';
 
 export function SidebarProvider({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -18,8 +9,4 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
       {children}
     </SidebarContext.Provider>
   );
-}
-
-export function useSidebar() {
-  return useContext(SidebarContext);
 }

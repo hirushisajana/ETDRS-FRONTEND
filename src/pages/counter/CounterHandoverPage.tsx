@@ -108,6 +108,8 @@ export default function CounterHandoverPage() {
   };
 
   const needsCertificate = selected?.folioType === 'ORIGINAL' && !selected.certificateNumber;
+  const collectorDataValid = Boolean(form.collectorIdNumber.trim()) && form.collectorAcknowledged;
+  const canConfirmHandover = !needsCertificate && collectorDataValid;
 
   return (
     <div className="p-6 space-y-5">
@@ -305,7 +307,7 @@ export default function CounterHandoverPage() {
 
               <button
                 onClick={handleSubmit}
-                disabled={handingOver || needsCertificate}
+                disabled={handingOver || !canConfirmHandover}
                 className="w-full px-4 py-2.5 bg-gradient-to-r from-maroon-700 to-maroon-600 hover:from-maroon-800 hover:to-maroon-700 disabled:opacity-60 text-white text-sm font-medium rounded-lg transition-colors disabled:cursor-not-allowed cursor-pointer"
               >
                 {needsCertificate

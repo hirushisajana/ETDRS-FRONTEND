@@ -116,8 +116,9 @@ export default function FolioFormPage() {
     queryFn: () => folioApi.getById(folioId),
   });
 
-  useEffect(() => {
-    if (!folio) return;
+  const [prevFolio, setPrevFolio] = useState<Folio | null>(null);
+  if (folio && folio !== prevFolio) {
+    setPrevFolio(folio);
     if (folio.scanFilePath) setDeedFileName(folio.scanFilePath);
     setTrustCategory(folio.trustCategory || 'LOCAL');
     setVolumeNumber(folio.volumeNumber || '');
@@ -132,7 +133,7 @@ export default function FolioFormPage() {
     setInstrumentNumber(folio.deedNumber || '');
     setInstrumentDate(folio.attestedDate || '');
     setNotaryQuery(folio.notaryName || '');
-  }, [folio]);
+  }
 
   useEffect(() => {
     if (!folioId) return;
@@ -201,7 +202,7 @@ export default function FolioFormPage() {
     setError('');
     try {
       await folioApi.update(folioId, {
-        trustCategory: trustCategory as any,
+        trustCategory,
         broughtForwardVolume, broughtForwardFolio,
         trustName, trustAddress,
         trustPurpose, purposeFormat,
@@ -276,13 +277,13 @@ export default function FolioFormPage() {
         ? ({ DIRECT: 'INDIVIDUAL', INDIRECT: 'GROUP', COMPANY: 'COMPANY' } as const)[partyForm.beneficiaryType] || ''
         : partyForm.partyType;
       const body: PartyRequest = {
-        partyRole: partyForm.partyRole as any,
-        partyType: partyType as any,
+        partyRole: partyForm.partyRole,
+        partyType,
         fullName: partyForm.fullName,
         address: partyForm.address,
       };
-      if (partyForm.beneficiaryType) body.beneficiaryType = partyForm.beneficiaryType as any;
-      if (partyForm.idType) body.idType = partyForm.idType as any;
+      if (partyForm.beneficiaryType) body.beneficiaryType = partyForm.beneficiaryType;
+      if (partyForm.idType) body.idType = partyForm.idType;
       if (partyForm.idNumber) body.idNumber = partyForm.idNumber;
       if (partyForm.companyRegNumber) body.companyRegNumber = partyForm.companyRegNumber;
       if (partyForm.foreignAddress) body.foreignAddress = partyForm.foreignAddress;
@@ -335,7 +336,7 @@ export default function FolioFormPage() {
     e.preventDefault();
     try {
       const body: PropertyRequest = {
-        propertyType: propForm.propertyType as any,
+        propertyType: propForm.propertyType,
       };
       if (propForm.amount) body.amount = parseFloat(propForm.amount);
       if (propForm.currency) body.currency = propForm.currency;

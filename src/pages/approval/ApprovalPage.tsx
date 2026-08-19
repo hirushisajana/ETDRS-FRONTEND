@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { approvalApi, scanApi, certificateApi, signatureApi, suspiciousApi } from '../../api';
 import { LoadingSpinner, EmptyState, StatusBadge } from '../../components/shared';
@@ -15,8 +15,8 @@ export default function ApprovalPage() {
   const queryClient = useQueryClient();
   const [view, setView] = useState<ViewType>('verification');
   const [selected, setSelected] = useState<Folio | null>(null);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [pdfLoading, setPdfLoading] = useState(false);
+  const [pdfState, setPdfState] = useState<{ id: number; url: string | null }>({ id: 0, url: null });
+  const [now, setNow] = useState(() => Date.now());
   const [activeTab, setActiveTab] = useState<TabType>('general');
   const [actionType, setActionType] = useState<ActionType | null>(null);
   const [reason, setReason] = useState('');
@@ -44,30 +44,36 @@ export default function ApprovalPage() {
     enabled: view === 'certificates',
   });
 
-  const loadPdf = useCallback(async (folioId: number) => {
-    setPdfLoading(true);
-    setPdfUrl(null);
-    try {
-      const blob = await scanApi.getDeedFile(folioId);
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
-    } catch {
-      setPdfUrl(null);
-    } finally {
-      setPdfLoading(false);
-    }
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 60000);
+    return () => clearInterval(id);
   }, []);
 
+  const [prevSelectedId, setPrevSelectedId] = useState<number | undefined>(undefined);
+  if (selected && selected.id !== prevSelectedId) {
+    setPrevSelectedId(selected.id);
+    setActiveTab('general');
+    setActionType(null);
+    setReason('');
+    setConcerns('');
+    setChecks({ name: false, parties: false, properties: false, notary: false });
+  }
+
   useEffect(() => {
-    if (selected) {
-      loadPdf(selected.id);
-      setActiveTab('general');
-      setActionType(null);
-      setReason('');
-      setConcerns('');
-      setChecks({ name: false, parties: false, properties: false, notary: false });
-    }
-  }, [selected?.id, loadPdf]);
+    if (!selected) return;
+    let cancelled = false;
+    scanApi.getDeedFile(selected.id)
+      .then((blob) => {
+        if (!cancelled) setPdfState({ id: selected.id, url: URL.createObjectURL(blob) });
+      })
+      .catch(() => {
+        if (!cancelled) setPdfState({ id: selected.id, url: null });
+      });
+    return () => { cancelled = true; };
+  }, [selected]);
+
+  const pdfUrl = pdfState.id === selected?.id ? pdfState.url : null;
+  const pdfLoading = !!selected && pdfState.id !== selected.id;
 
   useEffect(() => {
     return () => { if (pdfUrl) URL.revokeObjectURL(pdfUrl); };
@@ -245,7 +251,7 @@ export default function ApprovalPage() {
                       </span>
                       <span className="text-[10px] text-gray-400">
                         {folio.createdAt
-                          ? `${Math.round((Date.now() - new Date(folio.createdAt).getTime()) / 3600000)}h ago`
+                          ? `${Math.round((now - new Date(folio.createdAt).getTime()) / 3600000)}h ago`
                           : ''}
                       </span>
                     </div>

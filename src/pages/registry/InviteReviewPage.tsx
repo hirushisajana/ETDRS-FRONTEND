@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { registryApi } from '../../api/registry';
@@ -31,12 +31,12 @@ export default function InviteReviewPage() {
     enabled: !!registryId,
   });
 
-  useEffect(() => {
-    if (preview) {
-      setToEmail(preview.to);
-      setSubject(preview.subject);
-    }
-  }, [preview]);
+  const [prevPreview, setPrevPreview] = useState<NonNullable<typeof preview> | null>(null);
+  if (preview && preview !== prevPreview) {
+    setPrevPreview(preview);
+    setToEmail(preview.to);
+    setSubject(preview.subject);
+  }
 
   const handleSend = async () => {
     setSending(true);

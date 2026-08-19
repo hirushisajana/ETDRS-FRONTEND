@@ -2,95 +2,54 @@ import { createBrowserRouter } from 'react-router-dom';
 import { AppLayout } from '../components/layout';
 import { ProtectedRoute, PublicPortalRoute } from './guards';
 import type { UserRole } from '../types';
-import { lazy } from 'react';
-
-// Landing
-const LandingPage = lazy(() => import('../pages/landing/LandingPage'));
-
-// Auth pages
-const LoginPage = lazy(() => import('../pages/auth/LoginPage'));
-const ActivatePage = lazy(() => import('../pages/auth/ActivatePage'));
-const ForgotPasswordPage = lazy(() => import('../pages/auth/ForgotPasswordPage'));
-
-// Public portal
-const RegisterOrSignInPage = lazy(() => import('../pages/portal/RegisterOrSignInPage'));
-const PublicForgotPasswordPage = lazy(() => import('../pages/portal/PublicForgotPasswordPage'));
-const PublicResetPasswordPage = lazy(() => import('../pages/portal/PublicResetPasswordPage'));
-const PublicPortalHome = lazy(() => import('../pages/portal/PublicPortalHome'));
-const PublicTrustDetailPage = lazy(() => import('../pages/portal/PublicTrustDetailPage'));
-
-// Dashboard
-const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'));
-const RegistryDashboardPage = lazy(() => import('../pages/dashboard/RegistryDashboardPage'));
-const DashboardRedirect = lazy(() => import('../pages/dashboard/DashboardRedirect'));
-
-// Registry
-const RegistryListPage = lazy(() => import('../pages/registry/RegistryListPage'));
-const RegistryFormPage = lazy(() => import('../pages/registry/RegistryFormPage'));
-const InviteReviewPage = lazy(() => import('../pages/registry/InviteReviewPage'));
-
-// Users
-const UserListPage = lazy(() => import('../pages/users/UserListPage'));
-const UserFormPage = lazy(() => import('../pages/users/UserFormPage'));
-
-// Daybook / Counter
-const CounterPage = lazy(() => import('../pages/counter/CounterPage'));
-const CounterHandoverPage = lazy(() => import('../pages/counter/CounterHandoverPage'));
-const RecentEntriesPage = lazy(() => import('../pages/counter/RecentEntriesPage'));
-const RejectedDeedsPage = lazy(() => import('../pages/counter/RejectedDeedsPage'));
-const CompletedHandoversPage = lazy(() => import('../pages/counter/CompletedHandoversPage'));
-
-// Daybook Pending
-const DaybookPendingPage = lazy(() => import('../pages/daybook/DaybookPendingPage'));
-
-// Daybook list + detail
-const DaybookListPage = lazy(() => import('../pages/daybook/DaybookListPage'));
-const DaybookDetailPage = lazy(() => import('../pages/daybook/DaybookDetailPage'));
-
-// Folio
-const FolioListPage = lazy(() => import('../pages/folio/FolioListPage'));
-const FolioFormPage = lazy(() => import('../pages/folio/FolioFormPage'));
-const FolioDetailPage = lazy(() => import('../pages/folio/FolioDetailPage'));
-const FolioAdminListPage = lazy(() => import('../pages/folio/FolioAdminListPage'));
-const FolioAdminDetailPage = lazy(() => import('../pages/folio/FolioAdminDetailPage'));
-const FolioChainViewPage = lazy(() => import('../pages/folio/FolioChainViewPage'));
-const MyFoliosPage = lazy(() => import('../pages/folio/MyFoliosPage'));
-const ReportedDeedsPage = lazy(() => import('../pages/folio/ReportedDeedsPage'));
-
-// Approval
-const ApprovalPage = lazy(() => import('../pages/approval/ApprovalPage'));
-
-// Signature
-const SignatureSetupPage = lazy(() => import('../pages/signature/SignatureSetupPage'));
-
-// Scan
-const ScanPage = lazy(() => import('../pages/scan/ScanPage'));
-
-// Certificates
-const CertificateListPage = lazy(() => import('../pages/certificates/CertificateListPage'));
-
-// Suspicious
-const SuspiciousListPage = lazy(() => import('../pages/suspicious/SuspiciousListPage'));
-
-// Staff
-const StaffListPage = lazy(() => import('../pages/staff/StaffListPage'));
-const StaffFormPage = lazy(() => import('../pages/staff/StaffFormPage'));
-const StaffInviteReviewPage = lazy(() => import('../pages/staff/StaffInviteReviewPage'));
-
-// Viewer
-const DeedViewerPage = lazy(() => import('../pages/viewer/DeedViewerPage'));
-
-// Search
-const GlobalSearchPage = lazy(() => import('../pages/search/GlobalSearchPage'));
-
-// Notary
-const NotaryListPage = lazy(() => import('../pages/notary/NotaryListPage'));
-
-// Stats
-const StatsPage = lazy(() => import('../pages/stats/StatsPage'));
-
-// Error
-const NotFoundPage = lazy(() => import('../pages/errors/NotFoundPage'));
+import {
+  LandingPage,
+  LoginPage,
+  ActivatePage,
+  ForgotPasswordPage,
+  RegisterOrSignInPage,
+  PublicForgotPasswordPage,
+  PublicResetPasswordPage,
+  PublicPortalHome,
+  PublicTrustDetailPage,
+  DashboardPage,
+  RegistryDashboardPage,
+  DashboardRedirect,
+  RegistryListPage,
+  RegistryFormPage,
+  InviteReviewPage,
+  UserListPage,
+  UserFormPage,
+  CounterPage,
+  CounterHandoverPage,
+  RecentEntriesPage,
+  RejectedDeedsPage,
+  CompletedHandoversPage,
+  DaybookPendingPage,
+  DaybookListPage,
+  DaybookDetailPage,
+  FolioListPage,
+  FolioFormPage,
+  FolioDetailPage,
+  FolioAdminListPage,
+  FolioAdminDetailPage,
+  FolioChainViewPage,
+  MyFoliosPage,
+  ReportedDeedsPage,
+  ApprovalPage,
+  SignatureSetupPage,
+  ScanPage,
+  CertificateListPage,
+  SuspiciousListPage,
+  StaffListPage,
+  StaffFormPage,
+  StaffInviteReviewPage,
+  DeedViewerPage,
+  GlobalSearchPage,
+  NotaryListPage,
+  StatsPage,
+  NotFoundPage,
+} from './lazy';
 
 export const router = createBrowserRouter([
   {

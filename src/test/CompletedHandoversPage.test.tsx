@@ -1,14 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import CompletedHandoversPage from '../pages/counter/CompletedHandoversPage';
-import { daybookApi } from '../api';
-import type { Folio } from '../types';
+import { daybookApi, certificateApi } from '../api';
+import type { Folio, RegistrationCertificate } from '../types';
 
 vi.mock('../api', () => ({
   daybookApi: {
     getCompletedHandovers: vi.fn(),
+  },
+  certificateApi: {
+    getByFolioId: vi.fn(),
+    download: vi.fn(),
   },
 }));
 
@@ -131,6 +135,52 @@ describe('CompletedHandoversPage', () => {
 
     expect(screen.queryByText('Folio-0001')).not.toBeInTheDocument();
     expect(screen.getByText('Folio-0002')).toBeInTheDocument();
+  });
+
+  it('shows the certificate number and opens the PDF for a handed-over deed', async () => {
+    const createObjectURLSpy = vi.fn(() => 'blob:completed-cert');
+    globalThis.URL.createObjectURL = createObjectURLSpy as unknown as typeof URL.createObjectURL;
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+
+    const fakeCert = {
+      id: 7,
+      folioId: 1,
+      daybookNumber: 'CLB/E/000001/2026',
+      certificateNumber: 'CERT-1001',
+      trustName: 'Jayasuriya Family Trust',
+      registryId: 5,
+      registryName: 'Colombo Land Registry',
+      issuedBy: 'Registrar General',
+      issuedByUserId: 2,
+      issuedDate: '2026-08-02',
+      expiryDate: '2031-08-02',
+      issuedAt: null,
+      status: 'ACTIVE' as const,
+      certificateType: 'ORIGINAL' as const,
+      active: true,
+      originalCertificateId: null,
+      renewedFromCertificateId: null,
+      renewalAlertSent: false,
+      daysUntilExpiry: 1825,
+      createdAt: '2026-08-02T10:00:00',
+      updatedAt: '2026-08-03T10:00:00',
+    } as RegistrationCertificate;
+    vi.mocked(certificateApi.getByFolioId).mockResolvedValue(fakeCert);
+    vi.mocked(certificateApi.download).mockResolvedValue(new Blob(['%PDF'], { type: 'application/pdf' }));
+
+    renderPage([handedOverFolio]);
+    const user = userEvent.setup();
+
+    await screen.findByText('Folio-0001');
+    expect(screen.getByText('CERT-1001')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'View / Print' }));
+
+    await waitFor(() => {
+      expect(certificateApi.getByFolioId).toHaveBeenCalledWith(1);
+      expect(certificateApi.download).toHaveBeenCalledWith(7);
+      expect(openSpy).toHaveBeenCalledWith('blob:completed-cert', '_blank');
+    });
   });
 
   it('clarifies that each deed is handed over only once', async () => {

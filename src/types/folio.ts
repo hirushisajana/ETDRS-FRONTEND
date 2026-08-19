@@ -99,6 +99,17 @@ export interface FolioDashboardStats {
   totalThisYear: number;
 }
 
+export interface EmailLog {
+  id: number;
+  emailType: string;
+  recipient: string;
+  subject: string;
+  body: string | null;
+  sentAt: string;
+  status: string;
+  errorMessage: string | null;
+}
+
 export interface Party {
   id: number;
   folioId: number;

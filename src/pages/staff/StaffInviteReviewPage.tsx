@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { staffApi } from '../../api';
@@ -29,13 +29,13 @@ export default function StaffInviteReviewPage() {
     enabled: !!staffId,
   });
 
-  useEffect(() => {
-    if (staff) {
-      setToEmail(staff.email);
-      const roleLabel = STAFF_ROLES.find((r) => r.role === staff.role)?.label || staff.role;
-      setSubject(`You're invited to join the Trust Registration System as ${roleLabel}`);
-    }
-  }, [staff]);
+  const [prevStaff, setPrevStaff] = useState<NonNullable<typeof staff> | null>(null);
+  if (staff && staff !== prevStaff) {
+    setPrevStaff(staff);
+    setToEmail(staff.email);
+    const roleLabel = STAFF_ROLES.find((r) => r.role === staff.role)?.label || staff.role;
+    setSubject(`You're invited to join the Trust Registration System as ${roleLabel}`);
+  }
 
   const sendMutation = useMutation({
     mutationFn: () => staffApi.sendInvite(staffId),

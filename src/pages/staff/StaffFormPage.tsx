@@ -43,8 +43,9 @@ export default function StaffFormPage() {
     try {
       const result = await staffApi.create({ fullName: fullName.trim(), email: email.trim(), role: selectedRole });
       navigate(`/staff/${result.id}/review`);
-    } catch (err: any) {
-      const message = err?.response?.data?.message || err?.message || 'Failed to create staff. Please try again.';
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } }; message?: string };
+      const message = axiosErr?.response?.data?.message || axiosErr?.message || 'Failed to create staff. Please try again.';
       setError(message);
     } finally {
       setSaving(false);

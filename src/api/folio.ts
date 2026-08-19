@@ -7,6 +7,7 @@ import type {
   PartyRequest,
   Property,
   PropertyRequest,
+  EmailLog,
 } from '../types';
 
 export const folioApi = {
@@ -125,7 +126,7 @@ export const folioApi = {
     apiClient.post<Folio>(`/folio/${id}/register-after-correction`).then((r) => r.data),
 
   getEmailLogs: (id: number) =>
-    apiClient.get<any[]>(`/folio/${id}/email-logs`).then((r) => r.data),
+    apiClient.get<EmailLog[]>(`/folio/${id}/email-logs`).then((r) => r.data),
 
   sendEmail: (id: number, data: { to: string; subject: string; body: string }) =>
     apiClient.post<void>(`/folio/${id}/send-email`, data).then((r) => r.data),

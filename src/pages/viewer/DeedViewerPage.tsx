@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { scanApi, folioApi } from '../../api';
@@ -8,9 +8,7 @@ export default function DeedViewerPage() {
   const { folioId: folioIdParam } = useParams();
   const navigate = useNavigate();
   const folioId = Number(folioIdParam);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [pdfLoading, setPdfLoading] = useState(false);
-  const [pdfError, setPdfError] = useState(false);
+  const [pdfState, setPdfState] = useState<{ id: number; url: string | null; error: boolean }>({ id: 0, url: null, error: false });
 
   const { data: folio, isLoading: folioLoading } = useQuery({
     queryKey: ['folio', folioId],
@@ -18,24 +16,23 @@ export default function DeedViewerPage() {
     enabled: !!folioId,
   });
 
-  const loadPdf = useCallback(async () => {
-    setPdfLoading(true);
-    setPdfError(false);
-    setPdfUrl(null);
-    try {
-      const blob = await scanApi.getDeedFile(folioId);
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
-    } catch {
-      setPdfError(true);
-    } finally {
-      setPdfLoading(false);
-    }
+  useEffect(() => {
+    if (!folioId) return;
+    let cancelled = false;
+    scanApi.getDeedFile(folioId)
+      .then((blob) => {
+        if (!cancelled) setPdfState({ id: folioId, url: URL.createObjectURL(blob), error: false });
+      })
+      .catch(() => {
+        if (!cancelled) setPdfState({ id: folioId, url: null, error: true });
+      });
+    return () => { cancelled = true; };
   }, [folioId]);
 
-  useEffect(() => {
-    if (folioId) loadPdf();
-  }, [folioId, loadPdf]);
+  const pdfStale = pdfState.id !== folioId;
+  const pdfUrl = pdfStale ? null : pdfState.url;
+  const pdfLoading = pdfStale || (!pdfState.url && !pdfState.error);
+  const pdfError = !pdfStale && pdfState.error;
 
   useEffect(() => {
     return () => { if (pdfUrl) URL.revokeObjectURL(pdfUrl); };

@@ -290,7 +290,7 @@ This is an automated notification from the Trust Registration System.`,
               No emails have been sent for this folio
             </div>
           ) : (
-            emailLogs.map((log: any) => (
+            emailLogs.map((log) => (
               <div key={log.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setExpandedEmailId(expandedEmailId === log.id ? null : log.id)}

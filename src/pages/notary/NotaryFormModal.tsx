@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { notaryApi } from '../../api';
 import type { NotaryResponse } from '../../types';
 
@@ -36,16 +36,16 @@ export default function NotaryFormModal({ notary, onClose, onSaved }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (notary) {
-      setFullName(notary.fullName);
-      setNic(notary.nic);
-      setNotaryRegistrationNumber(notary.notaryRegistrationNumber);
-      setDistrict(notary.district || '');
-      setRegisteredDate(notary.registeredDate || '');
-      setStatus(notary.status);
-    }
-  }, [notary]);
+  const [prevNotary, setPrevNotary] = useState<NotaryResponse | null>(null);
+  if (notary && notary !== prevNotary) {
+    setPrevNotary(notary);
+    setFullName(notary.fullName);
+    setNic(notary.nic);
+    setNotaryRegistrationNumber(notary.notaryRegistrationNumber);
+    setDistrict(notary.district || '');
+    setRegisteredDate(notary.registeredDate || '');
+    setStatus(notary.status);
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

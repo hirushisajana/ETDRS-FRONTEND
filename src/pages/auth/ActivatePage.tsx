@@ -29,7 +29,7 @@ export default function ActivatePage() {
   const navigate = useNavigate();
 
   const [details, setDetails] = useState<InviteDetails | null>(null);
-  const [loadingDetails, setLoadingDetails] = useState(true);
+  const [loadingDetails, setLoadingDetails] = useState(!token);
   const [fetchError, setFetchError] = useState('');
 
   const [password, setPassword] = useState('');
@@ -41,16 +41,14 @@ export default function ActivatePage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      setFetchError('No activation token provided.');
-      setLoadingDetails(false);
-      return;
-    }
+    if (!token) return;
     authApi.getInviteDetails(token)
       .then(setDetails)
       .catch(() => setFetchError('Invalid activation link.'))
       .finally(() => setLoadingDetails(false));
   }, [token]);
+
+  const resolvedFetchError = !token ? 'No activation token provided.' : fetchError;
 
   const matches = useMemo(() => rules.map((r) => r.test(password)), [password]);
   const allValid = matches.every(Boolean);
@@ -94,7 +92,7 @@ export default function ActivatePage() {
     );
   }
 
-  if (fetchError) {
+  if (resolvedFetchError) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-10 max-w-md w-full text-center">
@@ -103,7 +101,7 @@ export default function ActivatePage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">{fetchError}</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">{resolvedFetchError}</h2>
           <p className="text-sm text-gray-400 mb-6">
             If you believe this is a mistake, contact your system administrator to resend the invite.
           </p>
