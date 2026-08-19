@@ -376,6 +376,10 @@ body {
     page-break-after: avoid;
   }
   .folio-content table { page-break-inside: avoid; }
+  .folio-spread { display: block !important; }
+  .folio-page { border: none !important; page-break-inside: avoid; }
+  .folio-page + .folio-page { border-top: 1px solid #cbd5e1 !important; }
+  .folio-verification { page-break-inside: avoid; }
   @page { size: A5; margin: 8mm; }
 }
 
