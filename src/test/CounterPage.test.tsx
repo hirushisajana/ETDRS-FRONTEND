@@ -35,7 +35,7 @@ function NavHarness() {
       <CounterPage />
       <button onClick={() => navigate('/daybook/counter')}>Sidebar: Dashboard</button>
       <button onClick={() => navigate('/daybook/counter?tab=new')}>Sidebar: New Entry</button>
-      <button onClick={() => navigate('/daybook/counter?tab=update')}>Sidebar: Quarterly Update</button>
+      <button onClick={() => navigate('/daybook/counter?tab=update')}>Sidebar: Six-Month Update</button>
       <button onClick={() => navigate('/daybook/counter?tab=resubmit')}>Sidebar: Re-submission</button>
     </>
   );
@@ -72,7 +72,7 @@ describe('CounterPage URL-driven tab navigation', () => {
 
     await screen.findByText('Next Daybook Numbers');
 
-    await user.click(screen.getByRole('button', { name: 'Sidebar: Quarterly Update' }));
+    await user.click(screen.getByRole('button', { name: 'Sidebar: Six-Month Update' }));
     expect(await screen.findByText('Original Daybook Number')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Lookup' })).toBeInTheDocument();
     expect(screen.queryByText('Next Daybook Numbers')).not.toBeInTheDocument();

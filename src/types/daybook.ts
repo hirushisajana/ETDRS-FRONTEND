@@ -18,6 +18,7 @@ export interface DaybookEntry {
   entryType: EntryType;
   originalDaybookNumber: string | null;
   quarterlyUpdateNumber: number | null;
+  nextUpdateNumber?: number;
   clientName: string | null;
   clientEmail: string | null;
   clientTelephone: string | null;

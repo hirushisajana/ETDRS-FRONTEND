@@ -46,7 +46,7 @@ function statusHint(status: DaybookEntry['status']): string | null {
     case 'PENDING_CORRECTION': return 'Returned for correction';
     case 'READY_FOR_HANDOVER': return 'Ready for handover';
     case 'HANDED_OVER': return 'Handed over';
-    case 'SUPERSEDED': return 'Superseded by quarterly update';
+    case 'SUPERSEDED': return 'Superseded by six-month update';
     case 'SUSPICIOUS_FLAGGED': return 'Flagged — not registered';
     default: return null;
   }
@@ -123,7 +123,7 @@ export default function DayBookTemplate({ entry }: Props) {
               <Row label="Original Day Book" value={entry.originalDaybookNumber} />
             )}
             {entry.quarterlyUpdateNumber != null && (
-              <Row label="Quarterly Update #" value={String(entry.quarterlyUpdateNumber)} />
+              <Row label="Six-Month Update #" value={String(entry.quarterlyUpdateNumber)} />
             )}
           </div>
 

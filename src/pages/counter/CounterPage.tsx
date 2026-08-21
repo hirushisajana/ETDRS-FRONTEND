@@ -4,7 +4,7 @@ import { PageHeader, Card } from '../../components/shared';
 import { daybookApi } from '../../api';
 import CounterDashboard from './CounterDashboard';
 import NewEntryForm from './NewEntryForm';
-import QuarterlyUpdateForm from './QuarterlyUpdateForm';
+import SixMonthUpdateForm from './SixMonthUpdateForm';
 import ResubmissionForm from './ResubmissionForm';
 import ReceiptModal from './ReceiptModal';
 import type { DaybookEntry, ReceiptResponse } from '../../types';
@@ -150,14 +150,14 @@ export default function CounterPage() {
     <div className="p-6">
       <PageHeader
         title="Counter Dashboard"
-        description="Manage daybook entries, quarterly updates, and re-submissions"
+        description="Manage daybook entries, six-month updates, and re-submissions"
       />
 
       {activeTab !== 'dashboard' && (
         <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700 flex items-center gap-2">
           <span>&#9432;</span>
           <span>
-            Currently in <strong>{activeTab === 'new' ? 'New Entry' : activeTab === 'update' ? 'Quarterly Update' : 'Re-submission'}</strong> mode.
+            Currently in <strong>{activeTab === 'new' ? 'New Entry' : activeTab === 'update' ? 'Six-Month Update' : 'Re-submission'}</strong> mode.
             <button onClick={() => switchTab('dashboard')} className="underline ml-1">Return to dashboard</button>
           </span>
         </div>
@@ -178,7 +178,7 @@ export default function CounterPage() {
           className={`tab ${activeTab === 'update' ? 'active' : ''}`}
           onClick={() => switchTab('update')}
         >
-          Quarterly Update
+          Six-Month Update
         </button>
         <button
           className={`tab ${activeTab === 'resubmit' ? 'active' : ''}`}
@@ -193,7 +193,7 @@ export default function CounterPage() {
           <NewEntryForm onSuccess={handleNewSuccess} />
         )}
         {activeTab === 'update' && (
-          <QuarterlyUpdateForm onSuccess={handleUpdateSuccess} />
+          <SixMonthUpdateForm onSuccess={handleUpdateSuccess} />
         )}
         {activeTab === 'resubmit' && (
           <ResubmissionForm
